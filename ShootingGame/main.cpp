@@ -1,11 +1,7 @@
 #include "DxLib.h"
 #include "SceneManager.h"
 #include "Title.h"
-#include "Pad.h"
-
-Pad pad;
-
-SceneManager sceneManager(new Title());
+#include "PadInput.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -13,13 +9,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(TRUE);
 	if (DxLib_Init() == -1) return -1;
 	SetDrawScreen(DX_SCREEN_BACK);
+	SceneManager sceneManager(new Title());
 
-	while (ProcessMessage() == 0 && sceneManager.Update() != nullptr && !(pad.GetKeyFlg() & PAD_INPUT_START)) {
-		pad.UpdateInput();
+	while (ProcessMessage() == 0 && sceneManager.Update() != nullptr && !(PAD_INPUT::GetNowKey() == XINPUT_BUTTON_BACK)) {
+		PAD_INPUT::UpdateInput();
+		
+		ClearDrawScreen();
 
 		sceneManager.Draw();
-
-		ClearDrawScreen();
 		
 		ScreenFlip();
 	}
