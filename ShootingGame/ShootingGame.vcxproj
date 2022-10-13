@@ -155,6 +155,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletsBase.cpp" />
     <ClCompile Include="CharaBase.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PadInput.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletsBase.h" />
     <ClInclude Include="CharaBase.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="PadInput.h" />
     <ClInclude Include="Player.h" />

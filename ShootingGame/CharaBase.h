@@ -5,7 +5,8 @@
 class CharaBase : public SphereCollider
 {
 protected:
-	Bullet *bullets;
+	Bullet *bullets = nullptr;
+	bool isEnable = false;
 	float speed;
 	int images[2];
 	float x;
@@ -19,5 +20,7 @@ public:
 	virtual void Draw() const = 0;
 	virtual void Hit() = 0;
 	void GetBullets(Bullet* _bullets);
+	bool IsEnable();
+	~CharaBase();
 };
 
