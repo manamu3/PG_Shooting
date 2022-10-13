@@ -17,6 +17,8 @@ void Bullet::Update() {
 	y += moveY * speed;
 	if (y < 0) isEnable = false;
 	else if (y > 500) isEnable = false;
+	if (x < 0) isEnable = false;
+	else if (x > 640) isEnable = false;
 }
 
 void Bullet::Draw() const {
