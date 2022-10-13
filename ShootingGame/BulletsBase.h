@@ -2,6 +2,7 @@
 class BulletsBase
 {
 protected:
+	bool isEnable = false;
 	int damage;
 	unsigned int color;
 	float x;
@@ -14,5 +15,6 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 	int GetDamage();
+	bool IsEnable();
 };
 

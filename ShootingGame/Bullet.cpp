@@ -1,7 +1,7 @@
 #include "Bullet.h"
 #include "DxLib.h"
 
-Bullet::Bullet(float _x, float _y, float _moveX, float _moveY, float _speed, int _damage, unsigned int _color) {
+void Bullet::Initialize(float _x, float _y, float _moveX, float _moveY, float _speed, int _damage, unsigned int _color) {
 	x = _x;
 	y = _y;
 	moveX = _moveX;
@@ -9,11 +9,13 @@ Bullet::Bullet(float _x, float _y, float _moveX, float _moveY, float _speed, int
 	speed = _speed;
 	damage = _damage;
 	color = _color;
+	isEnable = true;
 }
 
 void Bullet::Update() {
 	x += moveX * speed;
 	y += moveY * speed;
+	if (y < 0) isEnable = false;
 }
 
 void Bullet::Draw() const {

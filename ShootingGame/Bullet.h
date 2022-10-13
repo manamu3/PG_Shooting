@@ -6,7 +6,7 @@
 class Bullet : public BulletsBase
 {
 public:
-	Bullet(float _x, float _y, float _moveX, float _moveY, float _speed, int _damage, unsigned int _color);
+	void Initialize(float _x, float _y, float _moveX, float _moveY, float _speed, int _damage, unsigned int _color);
 	void Update() override;
 	void Draw() const override;
 };

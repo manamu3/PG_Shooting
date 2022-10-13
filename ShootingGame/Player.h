@@ -2,12 +2,15 @@
 #include "CharaBase.h"
 
 #define DEVIATION 2000
+#define BULLET_MAX 50
+#define BULLET_INTERVAL 10
 
 class Player :  public CharaBase
 {
 private:
 	int score;
 	int life;
+	int bulletTime;
 
 public:
 	Player();
