@@ -1,7 +1,7 @@
 #pragma once
 #include "CharaBase.h"
 
-#define DEVIATION 1000
+#define DEVIATION 2000
 
 class Player :  public CharaBase
 {
@@ -16,5 +16,7 @@ public:
 	void Hit() override;
 	bool LifeCheck();
 	int GetScore();
+	void Move();
+	void Shot();
 };
 

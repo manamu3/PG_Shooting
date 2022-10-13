@@ -12,7 +12,6 @@ protected:
 	float y;
 	float moveX;
 	float moveY;
-	float speed;
 
 public:
 	void Init(float _x, float _y, float _moveX, float _moveY, float _speed, float _radius);

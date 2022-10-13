@@ -28,7 +28,7 @@ int PAD_INPUT::GetPadThumbLX() {
 }
 
 int PAD_INPUT::GetPadThumbLY() {
-	return Input.ThumbLY;
+	return -Input.ThumbLY;
 }
 
 int PAD_INPUT::GetNowKey() {

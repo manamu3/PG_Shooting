@@ -1,11 +1,19 @@
 #include "Player.h"
 #include "PadInput.h"
+#include "Bullet.h"
 
 Player::Player() {
 	images[0] = LoadGraph("");
 }
 
 void Player::Update() {
+	Move();
+	if (PAD_INPUT::GetNowKey() == XINPUT_BUTTON_A) {
+		Shot();
+	}
+}
+
+void Player::Move() {
 	int inputLX = PAD_INPUT::GetPadThumbLX();
 	int inputLY = PAD_INPUT::GetPadThumbLY();
 	if (inputLX < -DEVIATION) {
@@ -32,8 +40,12 @@ void Player::Update() {
 	y += moveY * speed;
 }
 
+void Player::Shot() {
+	
+}
+
 void Player::Draw() const {
-	DrawGraph(x, y, images[0], TRUE);
+	DrawCircle(x, y, 10, 0x0000FF, TRUE);
 }
 
 void Player::Hit() {
