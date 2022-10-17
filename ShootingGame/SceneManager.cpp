@@ -1,13 +1,18 @@
 #include "SceneManager.h"
 
 AbstractScene* SceneManager::Update() {
-	AbstractScene* nextScene = mScene->Update();
-	if (nextScene != mScene) {
-		delete mScene;
-		mScene = nextScene;
-	}
+	try {
+		AbstractScene* nextScene = mScene->Update();
+		if (nextScene != mScene) {
+			delete mScene;
+			mScene = nextScene;
 
-	return nextScene;
+			return nextScene;
+		}
+	}
+	catch(const char* err) {
+		return nullptr;
+	}
 }
 
 void SceneManager::Draw() const {

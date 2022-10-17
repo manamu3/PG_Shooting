@@ -13,6 +13,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager sceneManager(new Title());
 
+	double nextTime = GetNowCount();
+
 	while (ProcessMessage() == 0 && sceneManager.Update() != nullptr && !(PAD_INPUT::GetNowKey() == XINPUT_BUTTON_BACK)) {
 		PAD_INPUT::UpdateInput();
 		
@@ -21,6 +23,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		sceneManager.Draw();
 		
 		ScreenFlip();
+		
+		nextTime += 16.66;
+		if (nextTime > GetNowCount()) {
+			WaitTimer(nextTime - GetNowCount());
+		}
+
 	}
 	DxLib_End();
 	return 0;
