@@ -1,24 +1,34 @@
 #include "Enemy.h"
 #include "DxLib.h"
+#include <math.h>
 
 Enemy::Enemy() {
-	bullets = new Bullet[100];
+	bullets = new Bullet[ENEMY_BULLET_MAX];
 	hp = 10;
 	point = 100;
 }
 
 void Enemy::Update() {
-	y += moveY * speed;
-	if (y > 500) isEnable = false;
-	if (--bulletTime <= 0) {
-		for (int i = 0; i < 100; i++) {
-			if (!bullets[i].IsEnable()) {
-				bullets[i].Initialize(x, y, 0, 1, 5, 3, 0xFFFF00);
+	if (isEnable) {
+		y += moveY * speed;
+		if (y > 480) {
+			isEnable = false;
+		}
+		if (--bulletTime <= 0) {
+			bool shotBullet = false;
+			for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
+				if (!bullets[i].IsEnable()) {
+					bullets[i].Initialize(x, y, 0, 1, 5, 3, 0xFFFF00);
+					shotBullet = true;
+					break;
+				}
+			}
+			if (shotBullet) {
+				bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 			}
 		}
-		bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 	}
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Update();
 		}
@@ -26,8 +36,10 @@ void Enemy::Update() {
 }
 
 void Enemy::Draw() const {
-	DrawCircle(x, y, 10, 0xFF0000, TRUE);
-	for (int i = 0; i < 100; i++) {
+	if (isEnable) {
+		DrawCircle(x, y, 10, 0xFF0000, TRUE);
+	}
+	for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Draw();
 		}

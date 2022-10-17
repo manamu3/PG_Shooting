@@ -7,7 +7,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetMainWindowText("");
 	ChangeWindowMode(TRUE);
-	SetWindowSize(960, 640);
+	SetGraphMode(640, 480, 32);
+	
 	if (DxLib_Init() == -1) return -1;
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager sceneManager(new Title());

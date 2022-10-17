@@ -15,10 +15,8 @@ void Bullet::Initialize(float _x, float _y, float _moveX, float _moveY, float _s
 void Bullet::Update() {
 	x += moveX * speed;
 	y += moveY * speed;
-	if (y < 0) isEnable = false;
-	else if (y > 500) isEnable = false;
-	if (x < 0) isEnable = false;
-	else if (x > 640) isEnable = false;
+	if (x < 0 || x > 640) isEnable = false;
+	if (y < 0 || y > 480) isEnable = false;
 }
 
 void Bullet::Draw() const {

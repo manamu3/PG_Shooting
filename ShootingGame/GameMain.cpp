@@ -20,33 +20,28 @@ AbstractScene* GameMain::Update() {
 		}
 	}
 	for (int i = 0; i < 30; i++) {
-		if (enemy[i].IsEnable()) {
-			enemy[i].Update();
-		}
+		enemy[i].Update();
 	}
 	return this;
 }
 
 void GameMain::Draw() const {
-	/*unsigned int colors[5] = {
-		0x888888, 0xFF0000, 0x00FF00, 0x0000FF, 0xFFFFFF
-	};
-	for (int i = 0; i < 48; i++) {
-		unsigned int color = 0x888888;
-		if (i % 5 == 0) color = 0xFFFFFF;
-		DrawLine( 0,i * 20, 960, i * 20, color);
-	}
-	for (int i = 0; i < 32; i++) {
-		unsigned int color = 0x888888;
-		if (i % 5 == 0) color = 0xFFFFFF;
-		DrawLine(i * 20, 0, i * 20, 640, color);
-	}*/
 	player.Draw();
+
 	for (int i = 0; i < 30; i++) {
-		if (enemy[i].IsEnable()) {
-			enemy[i].Draw();
-		}
+		enemy[i].Draw();
 	}
+
+	/*for (int i = 0; i < 48; i++) {
+		if ((i + i) % 5 == 0)
+			DrawLine(i * 20, 0, i * 20, 640, 0xFFFFFF);
+		else 
+			DrawLine(i * 20, 0, i * 20, 640, 0x888888);
+		if ((i + i) % 5 == 0)
+			DrawLine(0, i * 20, 960,i * 20,  0xFFFFFF);
+		else
+			DrawLine(0, i * 20, 960, i * 20, 0x888888);
+	}*/
 }
 
 
