@@ -1,9 +1,10 @@
 #include "Player.h"
 #include "PadInput.h"
 #include "Bullet.h"
+#include "ImageManager.h"
 
 Player::Player() {
-	images[0] = LoadGraph("");
+	images[0] = GetImage(0, 0);
 	bullets = new Bullet[BULLET_MAX];
 	bulletTime = BULLET_INTERVAL;
 	life = 3;
@@ -51,8 +52,10 @@ void Player::Move() {
 		moveY = 0;
 	}
 
-	x += moveX * speed;
-	y += moveY * speed;
+	float nowSpeed = speed;
+	if (PAD_INPUT::GetNowKey() == XINPUT_BUTTON_X) nowSpeed /= 3;
+	x += moveX * nowSpeed;
+	y += moveY * nowSpeed;
 }
 
 void Player::Shot() {
@@ -65,7 +68,8 @@ void Player::Shot() {
 }
 
 void Player::Draw() const {
-	DrawCircle(x, y, 10, 0x0000FF, TRUE);
+	DrawGraph(x - PLAYER_SIZE / 2, y - PLAYER_SIZE / 2, images[0], TRUE);
+	//DrawCircle(x, y, 10, 0x0000FF, TRUE);
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Draw();

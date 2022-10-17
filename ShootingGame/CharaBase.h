@@ -1,8 +1,9 @@
 #pragma once
 #include "SphereCollider.h"
 #include "Bullet.h"
+#include "ImageManager.h"
 
-class CharaBase : public SphereCollider
+class CharaBase : public SphereCollider, public ImageManager
 {
 protected:
 	Bullet *bullets = nullptr;

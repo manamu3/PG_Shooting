@@ -4,6 +4,7 @@
 #define DEVIATION 2000
 #define BULLET_MAX 50
 #define BULLET_INTERVAL 10
+#define PLAYER_SIZE 40
 
 class Player :  public CharaBase
 {
