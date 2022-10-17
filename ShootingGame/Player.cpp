@@ -54,8 +54,12 @@ void Player::Move() {
 
 	float nowSpeed = speed;
 	if (PAD_INPUT::GetNowKey() == XINPUT_BUTTON_X) nowSpeed /= 3;
-	x += moveX * nowSpeed;
-	y += moveY * nowSpeed;
+	float newX = x + moveX * nowSpeed;
+	if (newX < PLAYER_SIZE / 2 || newX > 640 - PLAYER_SIZE / 2) newX = x;
+	float newY = y + moveY * nowSpeed;
+	if (newY < PLAYER_SIZE / 2 || newY > 480 - PLAYER_SIZE / 2) newY = y;
+	x = newX;
+	y = newY;
 }
 
 void Player::Shot() {
