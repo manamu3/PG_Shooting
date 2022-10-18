@@ -4,7 +4,9 @@
 #include "ImageManager.h"
 
 Player::Player() {
-	images[0] = GetImage(0, 0);
+	if ((images[0] = LoadGraph("images/player.png")) == -1) {
+		throw "プレイヤー画像の読み込みに失敗しました。";
+	}
 	bullets = new Bullet[BULLET_MAX];
 	bulletTime = BULLET_INTERVAL;
 	life = 3;

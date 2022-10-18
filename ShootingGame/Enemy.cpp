@@ -6,6 +6,7 @@ Enemy::Enemy() {
 	bullets = new Bullet[ENEMY_BULLET_MAX];
 	hp = 10;
 	point = 100;
+	images[0] = GetImage(0, 0);
 }
 
 void Enemy::Update() {
@@ -37,7 +38,7 @@ void Enemy::Update() {
 
 void Enemy::Draw() const {
 	if (isEnable) {
-		DrawCircle(x, y, 10, 0xFF0000, TRUE);
+		DrawGraph(x - 20, y - 20, images[0], TRUE);
 	}
 	for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
