@@ -10,8 +10,8 @@ class CharaBase : public SphereCollider, public ImageManager
 protected:
 	Bullet *bullets = nullptr;
 	bool isEnable = false;
-	float speed;
 	int images[2];
+	float speed;
 	float x;
 	float y;
 	float moveX;

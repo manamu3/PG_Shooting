@@ -6,7 +6,13 @@ Enemy::Enemy() {
 	bullets = new Bullet[BULLET_MAX];
 	hp = 10;
 	point = 100;
+	isDamage = false;
 	images[0] = GetImage(0, 0);
+}
+
+void Enemy::Init(float _x, float _y, float _moveX, float _moveY, float _speed, float _radius, int _hp) {
+	CharaBase::Init(_x, _y, _moveX, _moveY, _speed, _radius);
+	hp = _hp;
 }
 
 void Enemy::Update() {
@@ -51,8 +57,18 @@ void Enemy::Draw() const {
 
 void Enemy::Hit(Location pos) {
 	if (HitSphere(pos)) {
-
+		isDamage = true;
 	}
+}
+
+void Enemy::Damage(int damage) {
+	hp -= damage;
+	if (HpCheck()) isEnable = false;
+	isDamage = false;
+}
+
+bool Enemy::IsDamage() {
+	return isDamage;
 }
 
 bool Enemy::HpCheck() {

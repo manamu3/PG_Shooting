@@ -13,7 +13,7 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (!enemy[i].IsEnable()) {
-				enemy[i].Init(GetRand(640), 0, 0, 1, 3, 15);
+				enemy[i].Init(GetRand(640), 0, 0, 1, 3, 15, 3);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
@@ -49,15 +49,32 @@ void GameMain::Draw() const {
 
 
 void GameMain::HitCheck() {
-	clsDx();
+	Bullet* playerBullets = player.GetBullets();
 	for (int i = 0; i < 30; i++) {
 		if (!enemy[i].IsEnable()) continue;
+
 		player.Hit(enemy[i].GetLocation());
-		Bullet* bullets = enemy[i].GetBullets();
 		for (int j = 0; j < BULLET_MAX; j++) {
-			if (!bullets[j].IsEnable()) continue;
-			player.Hit(bullets[j].GetLocation());
+			if (!playerBullets[j].IsEnable()) continue;
+
+			enemy[i].Hit(playerBullets[j].GetLocation());
+			if (enemy[i].IsDamage()) {
+				enemy[i].Damage(playerBullets[j].GetDamage());
+				playerBullets[j].Disabled();
+				break;
+			}
 		}
-		enemy[i].Hit(player.GetLocation());
+	}
+	for (int i = 0; i < 30; i++) {
+		if (!enemy[i].IsEnable()) continue;
+
+		player.Hit(enemy[i].GetLocation());
+		Bullet* enemyBullets = enemy[i].GetBullets();
+		for (int j = 0; j < BULLET_MAX; j++) {
+			if (!enemyBullets[j].IsEnable()) continue;
+
+			player.Hit(enemyBullets[j].GetLocation());
+			break;
+		}
 	}
 }

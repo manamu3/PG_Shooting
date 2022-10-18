@@ -18,8 +18,7 @@ void Bullet::Update() {
 	y += moveY * speed;
 	Location pos = { x, y };
 	SetLocation(pos);
-	if (x < 0 || x > 640) isEnable = false;
-	if (y < 0 || y > 480) isEnable = false;
+	if (x < 0 || x > 640 || y < 0 || y > 480) Disabled();
 }
 
 void Bullet::Draw() const {
