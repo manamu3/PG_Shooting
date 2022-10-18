@@ -18,6 +18,6 @@ public:
 	virtual ~GameMain() {};
 	virtual AbstractScene* Update() override;
 	virtual void Draw() const override;
-	bool HitCheck();
+	void HitCheck();
 };
 

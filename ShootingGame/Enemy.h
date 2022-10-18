@@ -15,7 +15,7 @@ public:
 	Enemy();
 	void Update() override;
 	void Draw() const override;
-	void Hit() override;
+	void Hit(Location) override;
 	bool HpCheck();
 	int GetPoint();
 };

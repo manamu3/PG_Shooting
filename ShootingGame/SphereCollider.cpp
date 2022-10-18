@@ -1,9 +1,9 @@
 #include "SphereCollider.h"
 #include <math.h>
 
-bool SphereCollider::HitSphere(SphereCollider sphere) {
-	float x = sphere.GetLocation().x - location.x;
-	float y = sphere.GetLocation().y - location.y;
+bool SphereCollider::HitSphere(Location pos) {
+	float x = pos.x - location.x;
+	float y = pos.y - location.y;
 
 	float length = (x * x) + (y * y);
 

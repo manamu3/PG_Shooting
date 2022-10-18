@@ -12,6 +12,8 @@ Enemy::Enemy() {
 void Enemy::Update() {
 	if (isEnable) {
 		y += moveY * speed;
+		Location nowLocation = { x, y };
+		SetLocation(nowLocation);
 		if (y > 480) {
 			isEnable = false;
 		}
@@ -47,8 +49,10 @@ void Enemy::Draw() const {
 	}
 }
 
-void Enemy::Hit() {
+void Enemy::Hit(Location pos) {
+	if (HitSphere(pos)) {
 
+	}
 }
 
 bool Enemy::HpCheck() {

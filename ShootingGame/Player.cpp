@@ -9,6 +9,10 @@ Player::Player() {
 	}
 	bullets = new Bullet[BULLET_MAX];
 	bulletTime = BULLET_INTERVAL;
+	isDamage = false;
+	blink = 0;
+	blinkType = -15;
+	blinkCnt = 0;
 	life = 3;
 	score = 0;
 }
@@ -27,6 +31,14 @@ void Player::Update() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Update();
+		}
+	}
+
+	if (isDamage) {
+		blink += blinkType;
+		if (blink <= 0 || blink >= 255) {
+			blinkType *= -1;
+			if (++blinkCnt > 5) isDamage = false;
 		}
 	}
 }
@@ -62,6 +74,9 @@ void Player::Move() {
 	if (newY < PLAYER_SIZE / 2 || newY > 480 - PLAYER_SIZE / 2) newY = y;
 	x = newX;
 	y = newY;
+
+	Location nowLocation = { x, y };
+	SetLocation(nowLocation);
 }
 
 void Player::Shot() {
@@ -74,8 +89,11 @@ void Player::Shot() {
 }
 
 void Player::Draw() const {
+	if (isDamage) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, blink);
+	}
 	DrawGraph(x - PLAYER_SIZE / 2, y - PLAYER_SIZE / 2, images[0], TRUE);
-	//DrawCircle(x, y, 10, 0x0000FF, TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Draw();
@@ -83,8 +101,14 @@ void Player::Draw() const {
 	}
 }
 
-void Player::Hit() {
-	
+void Player::Hit(Location pos) {
+	if (HitSphere(pos) && !isDamage) {
+		life--;
+		blink = 255;
+		blinkType = -17;
+		blinkCnt = 0;
+		isDamage = true;
+	}
 }
 
 bool Player::LifeCheck() {

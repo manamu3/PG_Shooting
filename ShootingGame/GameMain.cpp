@@ -3,7 +3,7 @@
 #include "Enemy.h"
 
 GameMain::GameMain() {
-	player.Init(320, 420, 0, 0, 5, 3);
+	player.Init(320, 420, 0, 0, 5, 30);
 	enemy = new Enemy[30];
 	enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 }
@@ -13,7 +13,7 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (!enemy[i].IsEnable()) {
-				enemy[i].Init(GetRand(640), 0, 0, 1, 3, 30);
+				enemy[i].Init(GetRand(640), 0, 0, 1, 3, 15);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
@@ -22,6 +22,9 @@ AbstractScene* GameMain::Update() {
 	for (int i = 0; i < 30; i++) {
 		enemy[i].Update();
 	}
+
+	HitCheck();
+
 	return this;
 }
 
@@ -45,6 +48,11 @@ void GameMain::Draw() const {
 }
 
 
-bool GameMain::HitCheck() {
-	return false;
+void GameMain::HitCheck() {
+	clsDx();
+	for (int i = 0; i < 30; i++) {
+		if (!enemy[i].IsEnable()) continue;
+		player.Hit(enemy[i].GetLocation());
+		enemy[i].Hit(player.GetLocation());
+	}
 }

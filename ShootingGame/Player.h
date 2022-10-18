@@ -1,5 +1,6 @@
 #pragma once
 #include "CharaBase.h"
+#include "Enemy.h"
 
 #define DEVIATION 2000
 #define BULLET_MAX 50
@@ -12,12 +13,16 @@ private:
 	int score;
 	int life;
 	int bulletTime;
+	bool isDamage;
+	int blink;
+	int blinkType;
+	int blinkCnt;
 
 public:
 	Player();
 	void Update() override;
 	void Draw() const override;
-	void Hit() override;
+	void Hit(Location) override;
 	bool LifeCheck();
 	int GetScore();
 	void Move();

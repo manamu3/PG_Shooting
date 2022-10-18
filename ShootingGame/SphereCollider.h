@@ -12,7 +12,7 @@ private:
 	float radius;
 
 public:
-	bool HitSphere(SphereCollider);
+	bool HitSphere(Location);
 	Location GetLocation();
 	void SetLocation(Location);
 	void SetRadius(float);
