@@ -53,6 +53,11 @@ void GameMain::HitCheck() {
 	for (int i = 0; i < 30; i++) {
 		if (!enemy[i].IsEnable()) continue;
 		player.Hit(enemy[i].GetLocation());
+		Bullet* bullets = enemy[i].GetBullets();
+		for (int j = 0; j < BULLET_MAX; j++) {
+			if (!bullets[j].IsEnable()) continue;
+			player.Hit(bullets[j].GetLocation());
+		}
 		enemy[i].Hit(player.GetLocation());
 	}
 }

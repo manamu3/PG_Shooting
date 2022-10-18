@@ -10,8 +10,8 @@ void CharaBase::Init(float _x, float _y, float _moveX, float _moveY, float _spee
 	isEnable = true;
 }
 
-void CharaBase::GetBullets(Bullet* _bullets) {
-	_bullets = bullets;
+Bullet* CharaBase::GetBullets() {
+	return bullets;
 }
 
 bool CharaBase::IsEnable() {

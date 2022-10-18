@@ -1,5 +1,7 @@
 #pragma once
-class BulletsBase
+#include "SphereCollider.h"
+
+class BulletsBase : public SphereCollider
 {
 protected:
 	bool isEnable = false;

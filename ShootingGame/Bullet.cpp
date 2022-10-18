@@ -9,12 +9,15 @@ void Bullet::Initialize(float _x, float _y, float _moveX, float _moveY, float _s
 	speed = _speed;
 	damage = _damage;
 	color = _color;
+	SetRadius(RADIUS);
 	isEnable = true;
 }
 
 void Bullet::Update() {
 	x += moveX * speed;
 	y += moveY * speed;
+	Location pos = { x, y };
+	SetLocation(pos);
 	if (x < 0 || x > 640) isEnable = false;
 	if (y < 0 || y > 480) isEnable = false;
 }

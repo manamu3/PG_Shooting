@@ -3,6 +3,8 @@
 #include "Bullet.h"
 #include "ImageManager.h"
 
+#define BULLET_MAX 50
+
 class CharaBase : public SphereCollider, public ImageManager
 {
 protected:
@@ -20,7 +22,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 	virtual void Hit(Location) = 0;
-	void GetBullets(Bullet* _bullets);
+	Bullet* GetBullets();
 	bool IsEnable();
 	~CharaBase();
 };

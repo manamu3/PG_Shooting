@@ -3,7 +3,7 @@
 #include <math.h>
 
 Enemy::Enemy() {
-	bullets = new Bullet[ENEMY_BULLET_MAX];
+	bullets = new Bullet[BULLET_MAX];
 	hp = 10;
 	point = 100;
 	images[0] = GetImage(0, 0);
@@ -19,7 +19,7 @@ void Enemy::Update() {
 		}
 		if (--bulletTime <= 0) {
 			bool shotBullet = false;
-			for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
+			for (int i = 0; i < BULLET_MAX; i++) {
 				if (!bullets[i].IsEnable()) {
 					bullets[i].Initialize(x, y, 0, 1, 5, 3, 0xFFFF00);
 					shotBullet = true;
@@ -31,7 +31,7 @@ void Enemy::Update() {
 			}
 		}
 	}
-	for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
+	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Update();
 		}
@@ -42,7 +42,7 @@ void Enemy::Draw() const {
 	if (isEnable) {
 		DrawGraph(x - 20, y - 20, images[0], TRUE);
 	}
-	for (int i = 0; i < ENEMY_BULLET_MAX; i++) {
+	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i].IsEnable()) {
 			bullets[i].Draw();
 		}

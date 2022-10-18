@@ -1,7 +1,6 @@
 #pragma once
 #include "CharaBase.h"
 
-#define ENEMY_BULLET_MAX 50
 #define ENEMY_BULLET_INTERVAL 300
 
 class Enemy : public CharaBase
