@@ -5,7 +5,10 @@
 bool Enemy::pawnActive[9];
 
 Enemy::Enemy() {
-	bullets = new Bullet[BULLET_MAX];
+	bullets = new Bullet*[BULLET_MAX];
+	for (int i = 0; i < BULLET_MAX; i++) {
+		bullets[i] = nullptr;
+	}
 	hp = 10;
 	point = 100;
 	isDamage = false;
@@ -48,8 +51,8 @@ void Enemy::Update() {
 		if (--bulletTime <= 0) {
 			bool shotBullet = false;
 			for (int i = 0; i < BULLET_MAX; i++) {
-				if (!bullets[i].IsEnable()) {
-					bullets[i].Initialize(x, y, 0, 1, 5, 3, 0xFFFF00);
+				if (bullets[i] == nullptr) {
+					bullets[i] = new Bullet(x, y, 0, 1, 5, 3, 0xFFFF00);
 					shotBullet = true;
 					break;
 				}
@@ -60,8 +63,8 @@ void Enemy::Update() {
 		}
 	}
 	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i].IsEnable()) {
-			bullets[i].Update();
+		if (bullets[i] != nullptr) {
+			bullets[i]->Update();
 		}
 	}
 }
@@ -71,8 +74,8 @@ void Enemy::Draw() const {
 		DrawGraph(x - 20, y - 20, images[0], TRUE);
 	}
 	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i].IsEnable()) {
-			bullets[i].Draw();
+		if (bullets[i] != nullptr) {
+			bullets[i]->Draw();
 		}
 	}
 }

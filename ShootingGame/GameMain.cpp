@@ -49,18 +49,18 @@ void GameMain::Draw() const {
 
 
 void GameMain::HitCheck() {
-	Bullet* playerBullets = player.GetBullets();
+	Bullet** playerBullets = (player.GetBullets());
 	for (int i = 0; i < 30; i++) {
 		if (!enemy[i].IsEnable()) continue;
 
 		player.Hit(enemy[i].GetLocation());
 		for (int j = 0; j < BULLET_MAX; j++) {
-			if (!playerBullets[j].IsEnable()) continue;
+			if (playerBullets[j] == nullptr) continue;
 
-			enemy[i].Hit(playerBullets[j].GetLocation());
+			enemy[i].Hit(playerBullets[j]->GetLocation());
 			if (enemy[i].IsDamage()) {
-				enemy[i].Damage(playerBullets[j].GetDamage());
-				playerBullets[j].Disabled();
+				enemy[i].Damage(playerBullets[j]->GetDamage());
+				playerBullets[j]->Disabled();
 				break;
 			}
 		}
@@ -69,11 +69,11 @@ void GameMain::HitCheck() {
 		if (!enemy[i].IsEnable()) continue;
 
 		player.Hit(enemy[i].GetLocation());
-		Bullet* enemyBullets = enemy[i].GetBullets();
+		Bullet** enemyBullets = enemy[i].GetBullets();
 		for (int j = 0; j < BULLET_MAX; j++) {
-			if (!enemyBullets[j].IsEnable()) continue;
+			if (enemyBullets[j] == nullptr) continue;
 
-			player.Hit(enemyBullets[j].GetLocation());
+			player.Hit(enemyBullets[j]->GetLocation());
 			break;
 		}
 	}

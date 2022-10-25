@@ -1,7 +1,9 @@
 #include "Bullet.h"
 #include "DxLib.h"
 
-void Bullet::Initialize(float _x, float _y, float _moveX, float _moveY, float _speed, int _damage, unsigned int _color) {
+Bullet::Bullet() {};
+
+Bullet::Bullet(float _x, float _y, float _moveX, float _moveY, float _speed, int _damage, unsigned int _color) {
 	x = _x;
 	y = _y;
 	moveX = _moveX;

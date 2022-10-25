@@ -7,7 +7,10 @@ Player::Player() {
 	if ((images[0] = LoadGraph("images/player.png")) == -1) {
 		throw "プレイヤー画像の読み込みに失敗しました。";
 	}
-	bullets = new Bullet[BULLET_MAX];
+	bullets = new Bullet*[BULLET_MAX];
+	for (int i = 0; i < BULLET_MAX; i++) {
+		bullets[i] = nullptr;
+	}
 	bulletTime = BULLET_INTERVAL;
 	isDamage = false;
 	blink = 0;
@@ -29,8 +32,8 @@ void Player::Update() {
 		bulletTime = BULLET_INTERVAL;
 	}
 	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i].IsEnable()) {
-			bullets[i].Update();
+		if (bullets[i] != nullptr) {
+			bullets[i]->Update();
 		}
 	}
 
@@ -81,8 +84,8 @@ void Player::Move() {
 
 void Player::Shot() {
 	for (int i = 0; i < BULLET_MAX; i++) {
-		if (!bullets[i].IsEnable()) {
-			bullets[i].Initialize(x, y, 0, -1, 5, 3, 0xFFFFFF);
+		if (bullets[i] == nullptr) {
+			bullets[i] = new Bullet(x, y, 0, -1, 5, 3, 0xFFFFFF);
 			break;
 		}
 	}
@@ -95,8 +98,8 @@ void Player::Draw() const {
 	DrawGraph(x - PLAYER_SIZE / 2, y - PLAYER_SIZE / 2, images[0], TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i].IsEnable()) {
-			bullets[i].Draw();
+		if (bullets[i] != nullptr) {
+			bullets[i]->Draw();
 		}
 	}
 }
