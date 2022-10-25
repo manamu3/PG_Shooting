@@ -9,11 +9,14 @@ private:
 	int hp;
 	int point;
 	int bulletTime = 0;
+	int randX;
 	bool isDamage;
+	
+	static bool pawnActive[9];
 
 public:
 	Enemy();
-	void Init(float _x, float _y, float _moveX, float _moveY, float _speed, float _radius, int _hp);
+	void Init(float _moveX, float _moveY, float _speed, float _radius, int _hp);
 	void Update() override;
 	void Draw() const override;
 	void Hit(Location) override;

@@ -13,7 +13,7 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (!enemy[i].IsEnable()) {
-				enemy[i].Init(GetRand(640), 0, 0, 1, 3, 15, 3);
+				enemy[i].Init(0, 1, 3, 15, 3);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
