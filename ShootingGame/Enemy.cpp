@@ -5,17 +5,18 @@
 bool Enemy::pawnActive[9];
 
 Enemy::Enemy() {
+}
+
+Enemy::Enemy(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp) {
 	bullets = new Bullet*[BULLET_MAX];
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
 	}
-	hp = 10;
-	point = 100;
+	hp = _hp;
+	point = _point;
 	isDamage = false;
 	images[0] = GetImage(0, 0);
-}
 
-void Enemy::Init(float _moveX, float _moveY, float _speed, float _radius, int _hp) {
 	randX = GetRand(8);
 	if (pawnActive[randX]) {
 		bool newPawn = false;
@@ -26,7 +27,7 @@ void Enemy::Init(float _moveX, float _moveY, float _speed, float _radius, int _h
 			}
 		}
 		if (!newPawn) {
-			isEnable = false;
+			isActive = false;
 			return;
 		}
 	}
@@ -36,16 +37,15 @@ void Enemy::Init(float _moveX, float _moveY, float _speed, float _radius, int _h
 	pawnActive[randX] = true;
 	float x = (640.0f / 9.0f) * (float)randX + 20.0f;
 	CharaBase::Init(x, 0, _moveX, _moveY, _speed, _radius);
-	hp = _hp;
 }
 
 void Enemy::Update() {
-	if (isEnable) {
+	if (isActive) {
 		y += moveY * speed;
 		Location nowLocation = { x, y };
 		SetLocation(nowLocation);
 		if (y > 480) {
-			isEnable = false;
+			isActive = false;
 			pawnActive[randX] = false;
 		}
 		if (--bulletTime <= 0) {
@@ -65,12 +65,16 @@ void Enemy::Update() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i] != nullptr) {
 			bullets[i]->Update();
+			if (!bullets[i]->IsActive()) {
+				delete bullets[i];
+				bullets[i] = nullptr;
+			}
 		}
 	}
 }
 
 void Enemy::Draw() const {
-	if (isEnable) {
+	if (isActive) {
 		DrawGraph(x - 20, y - 20, images[0], TRUE);
 	}
 	for (int i = 0; i < BULLET_MAX; i++) {
@@ -89,7 +93,6 @@ void Enemy::Hit(Location pos) {
 void Enemy::Damage(int damage) {
 	hp -= damage;
 	if (HpCheck()) {
-		isEnable = false;
 		pawnActive[randX] = false;
 	}
 	isDamage = false;

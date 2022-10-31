@@ -34,6 +34,10 @@ void Player::Update() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i] != nullptr) {
 			bullets[i]->Update();
+			if (!bullets[i]->IsActive()) {
+				delete bullets[i];
+				bullets[i] = nullptr;
+			}
 		}
 	}
 

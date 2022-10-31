@@ -4,7 +4,7 @@
 class BulletsBase : public SphereCollider
 {
 protected:
-	bool isEnable = false;
+	bool isActive = false;
 	int damage;
 	unsigned int color;
 	float x;
@@ -18,6 +18,6 @@ public:
 	virtual void Draw() const = 0;
 	void Disabled();
 	int GetDamage();
-	bool IsEnable();
+	bool IsActive();
 };
 

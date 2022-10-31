@@ -12,7 +12,7 @@ Bullet::Bullet(float _x, float _y, float _moveX, float _moveY, float _speed, int
 	damage = _damage;
 	color = _color;
 	SetRadius(RADIUS);
-	isEnable = true;
+	isActive = true;
 }
 
 void Bullet::Update() {

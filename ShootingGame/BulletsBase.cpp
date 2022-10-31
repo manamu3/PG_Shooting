@@ -1,13 +1,13 @@
 #include "BulletsBase.h"
 
 void BulletsBase::Disabled() {
-	isEnable = false;
+	isActive = false;
 }
 
 int BulletsBase::GetDamage() {
 	return damage;
 }
 
-bool BulletsBase::IsEnable() {
-	return isEnable;
+bool BulletsBase::IsActive() {
+	return isActive;
 }

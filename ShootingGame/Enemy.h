@@ -16,7 +16,7 @@ private:
 
 public:
 	Enemy();
-	void Init(float _moveX, float _moveY, float _speed, float _radius, int _hp);
+	Enemy(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp);
 	void Update() override;
 	void Draw() const override;
 	void Hit(Location) override;

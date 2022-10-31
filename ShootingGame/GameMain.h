@@ -10,7 +10,7 @@ class GameMain : public AbstractScene
 {
 private:
 	Player player;
-	Enemy* enemy = nullptr;
+	Enemy** enemy = nullptr;
 	int enemyCreateTime;
 	
 public:

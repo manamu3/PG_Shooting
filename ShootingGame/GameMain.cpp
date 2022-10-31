@@ -4,7 +4,10 @@
 
 GameMain::GameMain() {
 	player.Init(320, 420, 0, 0, 5, 30);
-	enemy = new Enemy[30];
+	enemy = new Enemy*[30];
+	for (int i = 0; i < 30; i++) {
+		enemy[i] = nullptr;
+	}
 	enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 }
 
@@ -12,15 +15,21 @@ AbstractScene* GameMain::Update() {
 	player.Update();
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
-			if (!enemy[i].IsEnable()) {
-				enemy[i].Init(0, 1, 3, 15, 3);
+			if (enemy[i] == nullptr) {
+				enemy[i] = new Enemy(0, 1, 3, 15, 100, 3);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
 		}
 	}
 	for (int i = 0; i < 30; i++) {
-		enemy[i].Update();
+		if (enemy[i] != nullptr) {
+			enemy[i]->Update();
+			if (!enemy[i]->IsActive()) {
+				delete enemy[i];
+				enemy[i] = nullptr;
+			}
+		}
 	}
 
 	HitCheck();
@@ -32,7 +41,9 @@ void GameMain::Draw() const {
 	player.Draw();
 
 	for (int i = 0; i < 30; i++) {
-		enemy[i].Draw();
+		if (enemy[i] != nullptr) {
+			enemy[i]->Draw();
+		}
 	}
 
 	/*for (int i = 0; i < 48; i++) {
@@ -50,30 +61,36 @@ void GameMain::Draw() const {
 
 void GameMain::HitCheck() {
 	Bullet** playerBullets = (player.GetBullets());
+	//敵の当たり判定
 	for (int i = 0; i < 30; i++) {
-		if (!enemy[i].IsEnable()) continue;
-
-		player.Hit(enemy[i].GetLocation());
+		if (enemy[i] == nullptr) continue;
+		//プレイヤーと当たった時の処理
+		player.Hit(enemy[i]->GetLocation());
 		for (int j = 0; j < BULLET_MAX; j++) {
 			if (playerBullets[j] == nullptr) continue;
+			//プレイヤーの弾との当たり判定
+			enemy[i]->Hit(playerBullets[j]->GetLocation());
+			if (enemy[i]->IsDamage()) {
+				enemy[i]->Damage(playerBullets[j]->GetDamage());
+				delete enemy[i];
+				delete playerBullets[j];
 
-			enemy[i].Hit(playerBullets[j]->GetLocation());
-			if (enemy[i].IsDamage()) {
-				enemy[i].Damage(playerBullets[j]->GetDamage());
-				playerBullets[j]->Disabled();
+				enemy[i] = nullptr;
+				playerBullets[j] = nullptr;
 				break;
 			}
 		}
 	}
 	for (int i = 0; i < 30; i++) {
-		if (!enemy[i].IsEnable()) continue;
+		if (enemy[i] == nullptr) continue;
 
-		player.Hit(enemy[i].GetLocation());
-		Bullet** enemyBullets = enemy[i].GetBullets();
+		player.Hit(enemy[i]->GetLocation());
+		Bullet** enemyBullets = enemy[i]->GetBullets();
 		for (int j = 0; j < BULLET_MAX; j++) {
 			if (enemyBullets[j] == nullptr) continue;
-
 			player.Hit(enemyBullets[j]->GetLocation());
+			delete enemyBullets[j];
+			enemyBullets[j] = nullptr;
 			break;
 		}
 	}

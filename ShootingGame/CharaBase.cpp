@@ -7,13 +7,13 @@ void CharaBase::Init(float _x, float _y, float _moveX, float _moveY, float _spee
 	moveY = _moveY;
 	speed = _speed;
 	SetRadius(_radius);
-	isEnable = true;
+	isActive = true;
 }
 
 Bullet** CharaBase::GetBullets() {
 	return bullets;
 }
 
-bool CharaBase::IsEnable() {
-	return isEnable;
+bool CharaBase::IsActive() {
+	return isActive;
 }
