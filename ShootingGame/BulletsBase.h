@@ -16,8 +16,8 @@ protected:
 public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
-	void Disabled();
-	int GetDamage();
-	bool IsActive();
+	void Disabled() { isActive = false; }
+	int GetDamage() { return damage; }
+	bool IsActive() { return isActive; }
 };
 

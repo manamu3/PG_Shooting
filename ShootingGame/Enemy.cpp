@@ -2,40 +2,15 @@
 #include "DxLib.h"
 #include <math.h>
 
-bool Enemy::pawnActive[9];
-
-Enemy::Enemy() {
-}
-
-Enemy::Enemy(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp) {
-	bullets = new Bullet*[BULLET_MAX];
+void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp) {
+	bullets = new Bullet * [BULLET_MAX];
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
 	}
 	hp = _hp;
 	point = _point;
 	isDamage = false;
-	images[0] = GetImage(0, 0);
-
-	randX = GetRand(8);
-	if (pawnActive[randX]) {
-		bool newPawn = false;
-		for (int i = 0; i < 9; i++) {
-			if (!pawnActive[i]) {
-				newPawn = true;
-				break;
-			}
-		}
-		if (!newPawn) {
-			isActive = false;
-			return;
-		}
-	}
-	while (pawnActive[randX]) {
-		randX = GetRand(8);
-	}
-	pawnActive[randX] = true;
-	float x = (640.0f / 9.0f) * (float)randX + 20.0f;
+	bulletTime = 0;
 	CharaBase::Init(x, 0, _moveX, _moveY, _speed, _radius);
 }
 
@@ -46,7 +21,6 @@ void Enemy::Update() {
 		SetLocation(nowLocation);
 		if (y > 480) {
 			isActive = false;
-			pawnActive[randX] = false;
 		}
 		if (--bulletTime <= 0) {
 			bool shotBullet = false;
@@ -93,7 +67,7 @@ void Enemy::Hit(Location pos) {
 void Enemy::Damage(int damage) {
 	hp -= damage;
 	if (HpCheck()) {
-		pawnActive[randX] = false;
+		isActive = false;
 	}
 	isDamage = false;
 }
@@ -108,4 +82,13 @@ bool Enemy::HpCheck() {
 
 int Enemy::GetPoint() {
 	return point;
+}
+
+Enemy::~Enemy() {
+	for (int i = 0; i < BULLET_MAX; i++) {
+		if (bullets[i] != nullptr) {
+			delete bullets[i];
+			bullets[i] = nullptr;
+		}
+	}
 }

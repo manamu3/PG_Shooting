@@ -23,6 +23,7 @@ public:
 	void Draw() const override;
 	void Hit(Location) override;
 	bool LifeCheck();
+	bool IsDamage() { return isDamage; }
 	int GetScore();
 	void Move();
 	void Shot();

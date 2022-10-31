@@ -5,18 +5,14 @@
 
 class Enemy : public CharaBase
 {
-private:
+protected:
 	int hp;
 	int point;
 	int bulletTime = 0;
-	int randX;
 	bool isDamage;
-	
-	static bool pawnActive[9];
 
 public:
-	Enemy();
-	Enemy(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp);
+	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp);
 	void Update() override;
 	void Draw() const override;
 	void Hit(Location) override;
@@ -24,5 +20,7 @@ public:
 	bool HpCheck();
 	bool IsDamage();
 	int GetPoint();
+	void Disabled() { isActive = false; }
+	~Enemy();
 };
 

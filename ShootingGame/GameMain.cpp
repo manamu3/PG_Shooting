@@ -1,6 +1,7 @@
 #include "GameMain.h"
 #include "DxLib.h"
 #include "Enemy.h"
+#include "PawnEnemy.h"
 
 GameMain::GameMain() {
 	player.Init(320, 420, 0, 0, 5, 30);
@@ -16,7 +17,7 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (enemy[i] == nullptr) {
-				enemy[i] = new Enemy(0, 1, 3, 15, 100, 3);
+				enemy[i] = new PawnEnemy(0, 1, 3, 15, 100, 3);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
@@ -72,11 +73,8 @@ void GameMain::HitCheck() {
 			enemy[i]->Hit(playerBullets[j]->GetLocation());
 			if (enemy[i]->IsDamage()) {
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
-				delete enemy[i];
-				delete playerBullets[j];
-
-				enemy[i] = nullptr;
-				playerBullets[j] = nullptr;
+				enemy[i]->Disabled();
+				playerBullets[i]->Disabled();
 				break;
 			}
 		}
@@ -89,9 +87,10 @@ void GameMain::HitCheck() {
 		for (int j = 0; j < BULLET_MAX; j++) {
 			if (enemyBullets[j] == nullptr) continue;
 			player.Hit(enemyBullets[j]->GetLocation());
-			delete enemyBullets[j];
-			enemyBullets[j] = nullptr;
-			break;
+			if (player.IsDamage()) {
+				enemyBullets[j]->Disabled();
+				break;
+			}
 		}
 	}
 }
