@@ -10,7 +10,7 @@ void CharaBase::Init(float _x, float _y, float _moveX, float _moveY, float _spee
 	isActive = true;
 }
 
-Bullet** CharaBase::GetBullets() {
+BulletsBase** CharaBase::GetBullets() {
 	return bullets;
 }
 

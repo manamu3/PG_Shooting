@@ -1,6 +1,6 @@
 #pragma once
 #include "SphereCollider.h"
-#include "Bullet.h"
+#include "BulletsBase.h"
 #include "ImageManager.h"
 
 #define BULLET_MAX 100
@@ -8,7 +8,7 @@
 class CharaBase : public SphereCollider, public ImageManager
 {
 protected:
-	Bullet **bullets = nullptr;
+	BulletsBase **bullets = nullptr;
 	bool isActive = false;
 	int images[2];
 	float speed;
@@ -22,7 +22,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 	virtual void Hit(Location) = 0;
-	Bullet** GetBullets();
+	BulletsBase **GetBullets();
 	bool IsActive();
 };
 

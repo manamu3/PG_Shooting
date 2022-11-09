@@ -1,10 +1,10 @@
-#include "Bullet.h"
+#include "EnemyBullet.h"
 #include "DxLib.h"
 #include <math.h>
 
-Bullet::Bullet() {};
+EnemyBullet::EnemyBullet() {};
 
-Bullet::Bullet(float _x, float _y, int _bulletAngle, float _speed, int _damage, unsigned int _color) {
+EnemyBullet::EnemyBullet(float _x, float _y, int _bulletAngle, float _speed, int _damage, unsigned int _color) {
 	x = _x;
 	y = _y;
 	float rad = (float)(_bulletAngle) * ((DX_PI_F * 2) / 360.0f);
@@ -17,7 +17,7 @@ Bullet::Bullet(float _x, float _y, int _bulletAngle, float _speed, int _damage, 
 	isActive = true;
 }
 
-void Bullet::Update() {
+void EnemyBullet::Update() {
 	x += moveX * speed;
 	y += moveY * speed;
 	Location pos = { x, y };
@@ -25,6 +25,6 @@ void Bullet::Update() {
 	if (x < 0 || x > 640 || y < 0 || y > 480) Disabled();
 }
 
-void Bullet::Draw() const {
+void EnemyBullet::Draw() const {
 	DrawCircle(x, y, RADIUS, color, TRUE);
 }

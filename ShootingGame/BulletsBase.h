@@ -1,6 +1,8 @@
 #pragma once
 #include "SphereCollider.h"
 
+#define RADIUS 5
+
 class BulletsBase : public SphereCollider
 {
 protected:

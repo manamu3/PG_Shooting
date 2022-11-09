@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "Enemy.h"
 #include "PawnEnemy.h"
+#include "BulletsBase.h"
 
 GameMain::GameMain() {
 	player.Init(320, 420, 0, 0, 5, 30);
@@ -61,7 +62,7 @@ void GameMain::Draw() const {
 
 
 void GameMain::HitCheck() {
-	Bullet** playerBullets = (player.GetBullets());
+	BulletsBase** playerBullets = (player.GetBullets());
 	//“G‚Ì“–‚½‚è”»’è
 	for (int i = 0; i < 30; i++) {
 		if (enemy[i] == nullptr) continue;
@@ -74,7 +75,9 @@ void GameMain::HitCheck() {
 			if (enemy[i]->IsDamage()) {
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
 				enemy[i]->Disabled();
-				playerBullets[i]->Disabled();
+				if (playerBullets[i] != nullptr) {
+					playerBullets[i]->Disabled();
+				}
 				break;
 			}
 		}
@@ -83,7 +86,7 @@ void GameMain::HitCheck() {
 		if (enemy[i] == nullptr) continue;
 
 		player.Hit(enemy[i]->GetLocation());
-		Bullet** enemyBullets = enemy[i]->GetBullets();
+		BulletsBase** enemyBullets = enemy[i]->GetBullets();
 		for (int j = 0; j < BULLET_MAX; j++) {
 			if (enemyBullets[j] == nullptr) continue;
 			player.Hit(enemyBullets[j]->GetLocation());

@@ -1,13 +1,13 @@
 #include "Player.h"
 #include "PadInput.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include "ImageManager.h"
 
 Player::Player() {
 	if ((images[0] = LoadGraph("images/player.png")) == -1) {
 		throw "プレイヤー画像の読み込みに失敗しました。";
 	}
-	bullets = new Bullet*[BULLET_MAX];
+	bullets = new BulletsBase *[BULLET_MAX];
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
 	}
@@ -91,7 +91,7 @@ void Player::Move() {
 void Player::Shot() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new Bullet(x, y, 270, 5, 3, 0xFFFFFF);
+			bullets[i] = new PlayerBullet(x, y, 5, 3, 0xFFFFFF);
 			break;
 		}
 	}

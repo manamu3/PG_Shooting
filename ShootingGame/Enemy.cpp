@@ -1,8 +1,9 @@
 #include "Enemy.h"
 #include "DxLib.h"
+#include "EnemyBullet.h"
 
 void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle) {
-	bullets = new Bullet * [BULLET_MAX];
+	bullets = (new BulletsBase *[BULLET_MAX]);
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
 	}
@@ -27,7 +28,7 @@ void Enemy::Update() {
 			bool shotBullet = false;
 			for (int i = 0; i < BULLET_MAX; i++) {
 				if (bullets[i] == nullptr) {
-					bullets[i] = new Bullet(x, y, bulletDirection[bulletCnt], 5, 3, 0xFFFF00);
+					bullets[i] = new EnemyBullet(x, y, bulletDirection[bulletCnt], 5, 3, 0xFFFF00);
 					if (++bulletCnt >= bulletDirection.size()) {
 						shotBullet = true;
 						break;
