@@ -12,6 +12,7 @@ Player::Player() {
 		bullets[i] = nullptr;
 	}
 	bulletTime = BULLET_INTERVAL;
+	bulletDamagePoint = 3;
 	isDamage = false;
 	isBlink = false;
 	blink = 0;
@@ -91,7 +92,7 @@ void Player::Move() {
 void Player::Shot() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new PlayerBullet(x, y, 5, 3, 0xFFFFFF);
+			bullets[i] = new PlayerBullet(x, y, 5, bulletDamagePoint, 0xFFFFFF);
 			break;
 		}
 	}
@@ -108,6 +109,9 @@ void Player::Draw() const {
 			bullets[i]->Draw();
 		}
 	}
+
+	clsDx();
+	printfDx("%d\n", bulletDamagePoint);
 }
 
 void Player::Hit(Location pos) {

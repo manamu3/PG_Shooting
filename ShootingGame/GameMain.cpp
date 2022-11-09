@@ -3,12 +3,15 @@
 #include "Enemy.h"
 #include "PawnEnemy.h"
 #include "BulletsBase.h"
+#include "PowerUpItem.h"
 
 GameMain::GameMain() {
 	player.Init(320, 420, 0, 0, 5, 30);
-	enemy = new Enemy*[30];
+	enemy = new Enemy *[30];
+	item = new ItemBase *[30];
 	for (int i = 0; i < 30; i++) {
 		enemy[i] = nullptr;
+		item[i] = nullptr;
 	}
 	enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 }
@@ -32,6 +35,13 @@ AbstractScene* GameMain::Update() {
 				enemy[i] = nullptr;
 			}
 		}
+		if (item[i] != nullptr) {
+			item[i]->Update();
+			if (!item[i]->IsActive()) {
+				delete item[i];
+				item[i] = nullptr;
+			}
+		}
 	}
 
 	HitCheck();
@@ -45,6 +55,9 @@ void GameMain::Draw() const {
 	for (int i = 0; i < 30; i++) {
 		if (enemy[i] != nullptr) {
 			enemy[i]->Draw();
+		}
+		if (item[i] != nullptr) {
+			item[i]->Draw();
 		}
 	}
 
@@ -75,6 +88,14 @@ void GameMain::HitCheck() {
 			if (enemy[i]->IsDamage()) {
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
 				enemy[i]->Disabled();
+
+				for (int j = 0; j < 30; j++) {
+					if (item[j] == nullptr) {
+						Location pos = enemy[i]->GetLocation();
+						item[j] = new PowerUpItem(pos.x, pos.y);
+						break;
+					}
+				}
 				if (playerBullets[i] != nullptr) {
 					playerBullets[i]->Disabled();
 				}
@@ -92,6 +113,17 @@ void GameMain::HitCheck() {
 			player.Hit(enemyBullets[j]->GetLocation());
 			if (player.IsDamage()) {
 				enemyBullets[j]->Disabled();
+				break;
+			}
+		}
+	}
+	for (int i = 0; i < 30; i++) {
+		if (item[i] == nullptr) continue;
+
+		if (item[i]->Hit(player.GetLocation())) {
+			switch (item[i]->GetType()) {
+			case ITEM_TYPE::POWER_UP:
+				player.AddAttackBullet(1);
 				break;
 			}
 		}

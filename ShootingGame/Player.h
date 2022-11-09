@@ -17,6 +17,7 @@ private:
 	int blink;
 	int blinkType;
 	int blinkCnt;
+	int bulletDamagePoint;
 
 public:
 	Player();
@@ -28,5 +29,6 @@ public:
 	int GetScore();
 	void Move();
 	void Shot();
+	void AddAttackBullet(int attack) { bulletDamagePoint += attack; }
 };
 

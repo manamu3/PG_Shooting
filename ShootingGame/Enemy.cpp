@@ -41,12 +41,14 @@ void Enemy::Update() {
 			}
 		}
 	}
-	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i] != nullptr) {
-			bullets[i]->Update();
-			if (!bullets[i]->IsActive()) {
-				delete bullets[i];
-				bullets[i] = nullptr;
+	if (bullets != nullptr) {
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (bullets[i] != nullptr) {
+				bullets[i]->Update();
+				if (!bullets[i]->IsActive()) {
+					delete bullets[i];
+					bullets[i] = nullptr;
+				}
 			}
 		}
 	}
@@ -90,10 +92,12 @@ int Enemy::GetPoint() {
 }
 
 Enemy::~Enemy() {
-	for (int i = 0; i < BULLET_MAX; i++) {
-		if (bullets[i] != nullptr) {
-			delete bullets[i];
-			bullets[i] = nullptr;
+	if (bullets != nullptr) {
+		for (int i = 0; i < BULLET_MAX; i++) {
+			if (bullets[i] != nullptr) {
+				delete bullets[i];
+				bullets[i] = nullptr;
+			}
 		}
 	}
 }
