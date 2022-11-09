@@ -13,6 +13,7 @@ Player::Player() {
 	}
 	bulletTime = BULLET_INTERVAL;
 	isDamage = false;
+	isBlink = false;
 	blink = 0;
 	blinkType = -15;
 	blinkCnt = 0;
@@ -41,11 +42,12 @@ void Player::Update() {
 		}
 	}
 
-	if (isDamage) {
+	if (isBlink) {
+		isDamage = false;
 		blink += blinkType;
 		if (blink <= 0 || blink >= 255) {
 			blinkType *= -1;
-			if (++blinkCnt > 5) isDamage = false;
+			if (++blinkCnt > 5) isBlink = false;
 		}
 	}
 }
@@ -89,14 +91,14 @@ void Player::Move() {
 void Player::Shot() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new Bullet(x, y, 0, -1, 5, 3, 0xFFFFFF);
+			bullets[i] = new Bullet(x, y, 270, 5, 3, 0xFFFFFF);
 			break;
 		}
 	}
 }
 
 void Player::Draw() const {
-	if (isDamage) {
+	if (isBlink) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, blink);
 	}
 	DrawGraph(x - PLAYER_SIZE / 2, y - PLAYER_SIZE / 2, images[0], TRUE);
@@ -109,12 +111,13 @@ void Player::Draw() const {
 }
 
 void Player::Hit(Location pos) {
-	if (HitSphere(pos) && !isDamage) {
+	if (HitSphere(pos) && !isDamage && !isBlink) {
 		life--;
 		blink = 255;
 		blinkType = -17;
 		blinkCnt = 0;
 		isDamage = true;
+		isBlink = true;
 	}
 }
 

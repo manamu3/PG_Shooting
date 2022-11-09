@@ -30,7 +30,9 @@ PawnEnemy::PawnEnemy(float _moveX, float _moveY, float _speed, float _radius, in
 	pawnActive[randX] = true;
 	float x = (640.0f / 9.0f) * (float)randX + 20.0f;
 
-	Initialize(x, _moveX, _moveY, _speed, _radius, _point, _hp);
+	std::vector<float> bulletAngle = { 90 };
+
+	Initialize(x, _moveX, _moveY, _speed, _radius, _point, _hp, bulletAngle);
 }
 
 void PawnEnemy::Update() {

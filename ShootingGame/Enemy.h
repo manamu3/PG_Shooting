@@ -1,5 +1,6 @@
 #pragma once
 #include "CharaBase.h"
+#include <vector>
 
 #define ENEMY_BULLET_INTERVAL 300
 
@@ -10,9 +11,10 @@ protected:
 	int point;
 	int bulletTime = 0;
 	bool isDamage;
+	std::vector<float> bulletDirection;
 
 public:
-	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp);
+	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle);
 	void Update() override;
 	void Draw() const override;
 	void Hit(Location) override;

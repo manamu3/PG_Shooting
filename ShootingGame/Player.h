@@ -13,6 +13,7 @@ private:
 	int life;
 	int bulletTime;
 	bool isDamage;
+	bool isBlink;
 	int blink;
 	int blinkType;
 	int blinkCnt;
