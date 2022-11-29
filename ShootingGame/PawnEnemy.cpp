@@ -3,11 +3,7 @@
 
 bool PawnEnemy::pawnActive[9];
 
-PawnEnemy::PawnEnemy() {
-
-}
-
-PawnEnemy::PawnEnemy(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp) {
+PawnEnemy::PawnEnemy(float _speed, float _radius, int _point, int _hp) {
 	images[0] = GetImage(0, 0);
 
 	randX = GetRand(8);
@@ -32,10 +28,10 @@ PawnEnemy::PawnEnemy(float _moveX, float _moveY, float _speed, float _radius, in
 
 	std::vector<float> bulletAngle = { 90 };
 
-	Initialize(x, _moveX, _moveY, _speed, _radius, _point, _hp, bulletAngle);
+	Initialize(x, 0.0f, 1.0f, _speed, _radius, _point, _hp, bulletAngle, 5.0f, 3);
 }
 
-void PawnEnemy::Update() {
+void PawnEnemy::Update(bool _changeMove, float _moveX, float _moveY) {
 	Enemy::Update();
 	if (!isActive) {
 		pawnActive[randX] = false;

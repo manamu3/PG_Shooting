@@ -2,6 +2,8 @@
 #include "DxLib.h"
 #include "Enemy.h"
 #include "PawnEnemy.h"
+#include "LanceEnemy.h"
+#include "KnightEnemy.h"
 #include "BulletsBase.h"
 #include "PowerUpItem.h"
 
@@ -21,7 +23,18 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (enemy[i] == nullptr) {
-				enemy[i] = new PawnEnemy(0, 1, 3, 15, 100, 3);
+				int enemyType = GetRand(2);
+				switch (enemyType) {
+				case 0:
+					enemy[i] = new PawnEnemy(3, 15, 100, 3);
+					break;
+				case 1:
+					enemy[i] = new LanceEnemy(6, 15, 100, 3);
+					break;
+				case 2:
+					enemy[i] = new KnightEnemy(4.5f, 15, 100, 3);
+					break;
+				}
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
@@ -89,15 +102,15 @@ void GameMain::HitCheck() {
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
 				enemy[i]->Disabled();
 
-				for (int j = 0; j < 30; j++) {
-					if (item[j] == nullptr) {
+				for (int k = 0; k < 30; k++) {
+					if (item[k] == nullptr) {
 						Location pos = enemy[i]->GetLocation();
-						item[j] = new PowerUpItem(pos.x, pos.y);
+						item[k] = new PowerUpItem(pos.x, pos.y);
 						break;
 					}
 				}
-				if (playerBullets[i] != nullptr) {
-					playerBullets[i]->Disabled();
+				if (playerBullets[j] != nullptr) {
+					playerBullets[j]->Disabled();
 				}
 				break;
 			}

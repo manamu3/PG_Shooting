@@ -159,6 +159,8 @@
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="ItemBase.cpp" />
+    <ClCompile Include="KnightEnemy.cpp" />
+    <ClCompile Include="LanceEnemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PadInput.cpp" />
     <ClCompile Include="PawnEnemy.cpp" />
@@ -178,6 +180,8 @@
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="KnightEnemy.h" />
+    <ClInclude Include="LanceEnemy.h" />
     <ClInclude Include="PadInput.h" />
     <ClInclude Include="PawnEnemy.h" />
     <ClInclude Include="Player.h" />

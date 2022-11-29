@@ -22,7 +22,7 @@ Player::Player() {
 	score = 0;
 }
 
-void Player::Update() {
+void Player::Update(bool _changeMove, float _moveX, float _moveY) {
 	Move();
 	if (PAD_INPUT::GetNowKey() == XINPUT_BUTTON_A) {
 		if (++bulletTime > BULLET_INTERVAL) {

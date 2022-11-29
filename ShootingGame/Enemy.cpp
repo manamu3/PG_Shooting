@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "EnemyBullet.h"
 
-void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle) {
+void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle, float _bulletSpeed, int _bulletDamage) {
 	bullets = (new BulletsBase *[BULLET_MAX]);
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
@@ -12,12 +12,19 @@ void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float 
 	isDamage = false;
 	bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 	bulletDirection = _bulletAngle;
+	bulletSpeed = _bulletSpeed;
+	bulletDamage = _bulletDamage;
 	CharaBase::Init(x, 0, _moveX, _moveY, _speed, _radius);
 }
 
-void Enemy::Update() {
+void Enemy::Update(bool _changeMove, float _moveX, float _moveY) {
 	static int bulletCnt = 0;
 	if (isActive) {
+		if (_changeMove) {
+			moveX = _moveX;
+			moveY = _moveY;
+		}
+		x += moveX * speed;
 		y += moveY * speed;
 		Location nowLocation = { x, y };
 		SetLocation(nowLocation);
@@ -28,7 +35,7 @@ void Enemy::Update() {
 			bool shotBullet = false;
 			for (int i = 0; i < BULLET_MAX; i++) {
 				if (bullets[i] == nullptr) {
-					bullets[i] = new EnemyBullet(x, y, bulletDirection[bulletCnt], 5, 3, 0xFFFF00);
+					bullets[i] = new EnemyBullet(x, y, bulletDirection[bulletCnt], bulletSpeed, bulletDamage, 0xFFFF00);
 					if (++bulletCnt >= bulletDirection.size()) {
 						shotBullet = true;
 						break;

@@ -2,7 +2,7 @@
 #include "CharaBase.h"
 #include <vector>
 
-#define ENEMY_BULLET_INTERVAL 300
+#define ENEMY_BULLET_INTERVAL 180
 
 class Enemy : public CharaBase
 {
@@ -10,12 +10,14 @@ protected:
 	int hp;
 	int point;
 	int bulletTime = 0;
+	float bulletSpeed;
+	int bulletDamage;
 	bool isDamage;
 	std::vector<float> bulletDirection;
 
 public:
-	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle);
-	void Update() override;
+	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle, float _bulletSpeed, int _bulletDamage);
+	void Update(bool _changeMove = false, float _moveX = 0.0f, float _moveY = 0.0f) override;
 	void Draw() const override;
 	void Hit(Location) override;
 	void Damage(int);

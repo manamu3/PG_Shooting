@@ -1,13 +1,12 @@
 #pragma once
 #include "Enemy.h"
-class PawnEnemy : public Enemy
+class KnightEnemy : public Enemy
 {
 private:
-	int randX;
-	static bool pawnActive[9];
+	bool changeMovedFlag[9];
 
 public:
-	PawnEnemy(float _speed, float _radius, int _point, int _hp);
+	KnightEnemy(float _speed, float _radius, int _point, int _hp);
 	void Update(bool _changeMove = false, float _moveX = 0.0f, float _moveY = 0.0f) override;
 	void Draw() const override;
 };
