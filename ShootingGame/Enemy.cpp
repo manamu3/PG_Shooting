@@ -63,7 +63,7 @@ void Enemy::Update(bool _changeMove, float _moveX, float _moveY) {
 
 void Enemy::Draw() const {
 	if (isActive) {
-		DrawGraph(x - 20, y - 20, images[0], TRUE);
+		DrawRotaGraphF(x, y, 1.0, 0.0, images[0], TRUE);
 	}
 	for (int i = 0; i < BULLET_MAX; i++) {
 		if (bullets[i] != nullptr) {
