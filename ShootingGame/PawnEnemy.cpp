@@ -31,7 +31,7 @@ PawnEnemy::PawnEnemy(float _speed, float _radius, int _point, int _hp) {
 	Initialize(x, 0.0f, 1.0f, _speed, _radius, _point, _hp, bulletAngle, 5.0f, 3);
 }
 
-void PawnEnemy::Update(bool _changeMove, float _moveX, float _moveY) {
+void PawnEnemy::Update() {
 	Enemy::Update();
 	if (!isActive) {
 		pawnActive[randX] = false;

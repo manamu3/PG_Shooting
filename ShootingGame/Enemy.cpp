@@ -17,13 +17,9 @@ void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float 
 	CharaBase::Init(x, 0, _moveX, _moveY, _speed, _radius);
 }
 
-void Enemy::Update(bool _changeMove, float _moveX, float _moveY) {
+void Enemy::Update() {
 	static int bulletCnt = 0;
 	if (isActive) {
-		if (_changeMove) {
-			moveX = _moveX;
-			moveY = _moveY;
-		}
 		x += moveX * speed;
 		y += moveY * speed;
 		Location nowLocation = { x, y };
@@ -96,6 +92,11 @@ bool Enemy::HpCheck() {
 
 int Enemy::GetPoint() {
 	return point;
+}
+
+void Enemy::ChangeMove(float _moveX, float _moveY) {
+	moveX = _moveX;
+	moveY = _moveY;
 }
 
 Enemy::~Enemy() {

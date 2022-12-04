@@ -12,6 +12,6 @@ LanceEnemy::LanceEnemy(float _speed, float _radius, int _point, int _hp) {
 	Initialize(x, 0.0f, 1.0f, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
 
-void LanceEnemy::Update(bool _changeMove, float _moveX, float _moveY) {
+void LanceEnemy::Update() {
 	Enemy::Update();
 }

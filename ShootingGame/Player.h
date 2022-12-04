@@ -21,7 +21,7 @@ private:
 
 public:
 	Player();
-	void Update(bool _changeMove = false, float _moveX = 0.0f, float _moveY = 0.0f) override;
+	void Update() override;
 	void Draw() const override;
 	void Hit(Location) override;
 	bool LifeCheck();

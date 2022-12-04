@@ -17,7 +17,7 @@ protected:
 
 public:
 	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle, float _bulletSpeed, int _bulletDamage);
-	void Update(bool _changeMove = false, float _moveX = 0.0f, float _moveY = 0.0f) override;
+	void Update() override;
 	void Draw() const override;
 	void Hit(Location) override;
 	void Damage(int);
@@ -25,6 +25,7 @@ public:
 	bool IsDamage();
 	int GetPoint();
 	void Disabled() { isActive = false; }
+	void ChangeMove(float _moveX, float _moveY);
 	~Enemy();
 };
 
