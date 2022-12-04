@@ -37,7 +37,3 @@ void PawnEnemy::Update(bool _changeMove, float _moveX, float _moveY) {
 		pawnActive[randX] = false;
 	}
 }
-
-void PawnEnemy::Draw() const {
-	Enemy::Draw();
-}

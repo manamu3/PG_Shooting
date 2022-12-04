@@ -15,7 +15,3 @@ LanceEnemy::LanceEnemy(float _speed, float _radius, int _point, int _hp) {
 void LanceEnemy::Update(bool _changeMove, float _moveX, float _moveY) {
 	Enemy::Update();
 }
-
-void LanceEnemy::Draw() const {
-	Enemy::Draw();
-}

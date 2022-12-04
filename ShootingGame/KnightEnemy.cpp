@@ -51,7 +51,3 @@ void KnightEnemy::Update(bool _changeMove, float _moveX, float _moveY) {
 	}
 	Enemy::Update(changeFlag, newMoveX, moveY);
 }
-
-void KnightEnemy::Draw() const {
-	Enemy::Draw();
-}
