@@ -4,6 +4,7 @@
 #include "PawnEnemy.h"
 #include "LanceEnemy.h"
 #include "KnightEnemy.h"
+#include "SilverEnemy.h"
 #include "BulletsBase.h"
 #include "PowerUpItem.h"
 
@@ -23,18 +24,37 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (enemy[i] == nullptr) {
-				int enemyType = GetRand(2);
-				switch (enemyType) {
-				case 0:
+				int enemyType = GetRand(99);
+				if (enemyType < 65) {
 					enemy[i] = new PawnEnemy(3, 15, 100, 3);
-					break;
-				case 1:
-					enemy[i] = new LanceEnemy(6, 15, 100, 3);
-					break;
-				case 2:
-					enemy[i] = new KnightEnemy(4.5f, 15, 100, 3);
-					break;
 				}
+				else if (enemyType < 85) {
+					if (enemyType - 65 < 10) {
+						enemy[i] = new LanceEnemy(6, 15, 100, 3);
+					}
+					else {
+						enemy[i] = new KnightEnemy(4.5f, 15, 100, 3);
+					}
+				}
+				else if (enemyType < 95) {
+					if (enemyType - 85 < 10) {
+						enemy[i] = new SilverEnemy(3.0f, 15, 100, 3);
+					}
+					else {
+						enemy[i] = new SilverEnemy(4.5f, 15, 100, 3);
+					}
+				}
+				else {
+					/*if (GetRand(49) < 25) {
+
+					}
+					else {
+
+					}*/
+					enemy[i] = new PawnEnemy(3, 15, 100, 3);
+				}
+				//clsDx();
+				//printfDx("enemyType: %d\n", enemyType);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}

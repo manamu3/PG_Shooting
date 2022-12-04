@@ -110,8 +110,8 @@ void Player::Draw() const {
 		}
 	}
 
-	clsDx();
-	printfDx("%d\n", bulletDamagePoint);
+	//clsDx();
+	//printfDx("%d\n", bulletDamagePoint);
 }
 
 void Player::Hit(Location pos) {

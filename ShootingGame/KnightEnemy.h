@@ -3,7 +3,7 @@
 class KnightEnemy : public Enemy
 {
 private:
-	bool changeMovedFlag[9];
+	bool changeMovedFlag[5];
 
 public:
 	KnightEnemy(float _speed, float _radius, int _point, int _hp);

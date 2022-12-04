@@ -87,6 +87,9 @@
     <ClCompile Include="KnightEnemy.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="SilverEnemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Title.h">
@@ -141,6 +144,9 @@
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="KnightEnemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverEnemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
