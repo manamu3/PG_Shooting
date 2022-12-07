@@ -24,7 +24,7 @@ Player::Player() {
 
 void Player::Update() {
 	Move();
-	if (PAD_INPUT::GetNowKey() == XINPUT_BUTTON_A) {
+	if (PAD_INPUT::GetNowKey(XINPUT_BUTTON_A) == 1) {
 		if (++bulletTime > BULLET_INTERVAL) {
 			Shot();
 			bulletTime = 0;
@@ -77,7 +77,7 @@ void Player::Move() {
 	}
 
 	float nowSpeed = speed;
-	if (PAD_INPUT::GetNowKey() == XINPUT_BUTTON_X) nowSpeed /= 3;
+	if (PAD_INPUT::GetNowKey(XINPUT_BUTTON_X) == 1) nowSpeed /= 3;
 	float newX = x + moveX * nowSpeed;
 	if (newX < PLAYER_SIZE / 2 || newX > 640 - PLAYER_SIZE / 2) newX = x;
 	float newY = y + moveY * nowSpeed;

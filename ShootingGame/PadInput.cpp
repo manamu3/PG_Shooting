@@ -1,26 +1,27 @@
 #include "PadInput.h"
 
-int PAD_INPUT::NowKey = -1;
-int PAD_INPUT::OldKey = -1;
-int PAD_INPUT::KeyFlg = -1;
+int PAD_INPUT::NowKey[BUTTONS] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+int PAD_INPUT::OldKey[BUTTONS] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+int PAD_INPUT::KeyFlg[BUTTONS] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 XINPUT_STATE PAD_INPUT::Input;
 
 void PAD_INPUT::UpdateInput() {
 	GetJoypadXInputState(DX_INPUT_KEY_PAD1, &Input);
-	if (NowKey != -1)
-	{
-		OldKey = NowKey;
-	}
+	clsDx();
 	for (int i = 0; i < BUTTONS; i++)
 	{
-		if (Input.Buttons[i])
-		{
-			NowKey = i;
-			break;
+		if (NowKey[i] != -1) {
+			OldKey[i] = NowKey[i];
 		}
-		NowKey = -1;
+		if (Input.Buttons[i] == 1)
+		{
+			NowKey[i] = 1;
+		}
+		else {
+			NowKey[i] = -1;
+		}
+		KeyFlg[i] = NowKey[i] & ~OldKey[i];
 	}
-	KeyFlg = NowKey & ~OldKey;
 }
 
 int PAD_INPUT::GetPadThumbLX() {
@@ -31,6 +32,6 @@ int PAD_INPUT::GetPadThumbLY() {
 	return -Input.ThumbLY;
 }
 
-int PAD_INPUT::GetNowKey() {
-	return NowKey;
+int PAD_INPUT::GetNowKey(int key) {
+	return NowKey[key];
 }

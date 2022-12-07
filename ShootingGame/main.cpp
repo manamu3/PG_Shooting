@@ -15,7 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	double nextTime = GetNowCount();
 
-	while (ProcessMessage() == 0 && sceneManager.Update() != nullptr && !(PAD_INPUT::GetNowKey() == XINPUT_BUTTON_BACK)) {
+	while (ProcessMessage() == 0 && sceneManager.Update() != nullptr && !(PAD_INPUT::GetNowKey(XINPUT_BUTTON_BACK) == 1)) {
 		PAD_INPUT::UpdateInput();
 		
 		ClearDrawScreen();
