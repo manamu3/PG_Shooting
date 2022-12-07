@@ -5,6 +5,7 @@
 #include "LanceEnemy.h"
 #include "KnightEnemy.h"
 #include "SilverEnemy.h"
+#include "GoldEnemy.h"
 #include "BulletsBase.h"
 #include "PowerUpItem.h"
 
@@ -24,32 +25,32 @@ AbstractScene* GameMain::Update() {
 	if (--enemyCreateTime <= 0) {
 		for (int i = 0; i < 30; i++) {
 			if (enemy[i] == nullptr) {
-				int enemyType = GetRand(99);
-				if (enemyType < 65) {
+				int enemyType = GetRand(999);
+				if (enemyType < 650) {
 					enemy[i] = new PawnEnemy(3, 15, 100, 3);
 				}
-				else if (enemyType < 85) {
-					if (enemyType - 65 < 10) {
+				else if (enemyType < 850) {
+					if (enemyType - 650 < 100) {
 						enemy[i] = new LanceEnemy(6, 15, 100, 3);
 					}
 					else {
 						enemy[i] = new KnightEnemy(4.5f, 15, 100, 3);
 					}
 				}
-				else if (enemyType < 95) {
-					if (enemyType - 85 < 10) {
+				else if (enemyType < 950) {
+					if (enemyType - 850 < 50) {
 						enemy[i] = new SilverEnemy(3.0f, 15, 100, 3);
 					}
 					else {
-						enemy[i] = new SilverEnemy(4.5f, 15, 100, 3);
+						enemy[i] = new GoldEnemy(3.0f, 15, 100, 3);
 					}
 				}
 				else {
-					/*if (GetRand(49) < 25) {
-
+					/*if (enemyType - 950 < 25) {
+						enemy[i] = new SilverEnemy(3.0f, 15, 100, 3);
 					}
 					else {
-
+						enemy[i] = new GoldEnemy(3.0f, 15, 100, 3);
 					}*/
 					enemy[i] = new PawnEnemy(3, 15, 100, 3);
 				}

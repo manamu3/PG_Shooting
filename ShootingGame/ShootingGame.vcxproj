@@ -157,6 +157,7 @@
     <ClCompile Include="CharaBase.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="GoldEnemy.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="ItemBase.cpp" />
     <ClCompile Include="KnightEnemy.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="CharaBase.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameMain.h" />
+    <ClInclude Include="GoldEnemy.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="KnightEnemy.h" />

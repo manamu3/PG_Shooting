@@ -15,22 +15,22 @@ KnightEnemy::KnightEnemy(float _speed, float _radius, int _point, int _hp) {
 	std::vector<float> bulletAngle = { 60, 120 };
 
 	float moveX = 0.0f;
-	float moveY = sin(120.0f * (DX_PI_F / 180.0f));
+	float moveY = sinf(120.0f * (DX_PI_F / 180.0f));
 	int moveType = GetRand(1);
 	if (moveType == 0) {
 		if (x - 40.0f > 40.0f) {
-			moveX = cos(120.0f * (DX_PI_F / 180.0f));
+			moveX = cosf(120.0f * (DX_PI_F / 180.0f));
 		}
 		else {
-			moveX = cos(60.0f * (DX_PI_F / 180.0f));
+			moveX = cosf(60.0f * (DX_PI_F / 180.0f));
 		}
 	}
 	else {
 		if (x + 40.0f < 600.0f) {
-			moveX = cos(60.0f * (DX_PI_F / 180.0f));
+			moveX = cosf(60.0f * (DX_PI_F / 180.0f));
 		}
 		else {
-			moveX = cos(120.0f * (DX_PI_F / 180.0f));
+			moveX = cosf(120.0f * (DX_PI_F / 180.0f));
 		}
 	}
 
@@ -45,18 +45,18 @@ void KnightEnemy::Update() {
 		int newMoveType = GetRand(1);
 		if (newMoveType == 0) {
 			if (x - 40.0f > 40.0f) {
-				newMoveX = cos(120.0f * (DX_PI_F / 180.0f));
+				newMoveX = cosf(120.0f * (DX_PI_F / 180.0f));
 			}
 			else {
-				newMoveX = cos(60.0f * (DX_PI_F / 180.0f));
+				newMoveX = cosf(60.0f * (DX_PI_F / 180.0f));
 			}
 		}
 		else {
 			if (x + 40.0f < 600.0f) {
-				newMoveX = cos(60.0f * (DX_PI_F / 180.0f));
+				newMoveX = cosf(60.0f * (DX_PI_F / 180.0f));
 			}
 			else {
-				newMoveX = cos(120.0f * (DX_PI_F / 180.0f));
+				newMoveX = cosf(120.0f * (DX_PI_F / 180.0f));
 			}
 		}
 		ChangeMove(newMoveX, moveY);
