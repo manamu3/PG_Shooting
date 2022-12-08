@@ -6,6 +6,7 @@
 #include "KnightEnemy.h"
 #include "SilverEnemy.h"
 #include "GoldEnemy.h"
+#include "BishopEnemy.h"
 #include "BulletsBase.h"
 #include "PowerUpItem.h"
 
@@ -52,7 +53,7 @@ AbstractScene* GameMain::Update() {
 					else {
 						enemy[i] = new GoldEnemy(3.0f, 15, 100, 3);
 					}*/
-					enemy[i] = new PawnEnemy(3, 15, 100, 3);
+					enemy[i] = new BishopEnemy(6, 15, 100, 3);
 				}
 				//clsDx();
 				//printfDx("enemyType: %d\n", enemyType);

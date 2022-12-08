@@ -16,5 +16,6 @@ public:
 	static int GetPadThumbLX();	//左スティックのX
 	static int GetPadThumbLY();	//左スティックのY
 	static int GetNowKey(int key);	//ボタンの入力
+	static int GetKeyFlg(int key) { return KeyFlg[key]; }
 };
 
