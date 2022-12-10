@@ -109,9 +109,6 @@ void Player::Draw() const {
 			bullets[i]->Draw();
 		}
 	}
-
-	//clsDx();
-	//printfDx("%d\n", bulletDamagePoint);
 }
 
 void Player::Hit(Location pos) {

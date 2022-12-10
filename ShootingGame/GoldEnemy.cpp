@@ -74,7 +74,7 @@ void GoldEnemy::Update() {
 			newMoveType = GetRand(4);
 		}
 		if (newMoveType == 0) {
-			if (x - 40.0f > 40.0f) {
+			if (x - 80.0f > 40.0f) {
 				newMoveX = cosf(135.0f * (DX_PI_F / 180.0f));
 			}
 			else {
@@ -87,7 +87,7 @@ void GoldEnemy::Update() {
 			newMoveY = 1.0f;
 		}
 		else if (newMoveType == 2) {
-			if (x + 40.0f < 600.0f) {
+			if (x + 80.0f < 600.0f) {
 				newMoveX = cosf(45.0f * (DX_PI_F / 180.0f));
 			}
 			else {
@@ -96,7 +96,7 @@ void GoldEnemy::Update() {
 			newMoveY = sinf(135.0f * (DX_PI_F / 180.0f));
 		}
 		else if (newMoveType == 3) {
-			if (x - 40.0f > 40.0f) {
+			if (x - 80.0f > 40.0f) {
 				newMoveX = -1.0f;
 				sidePosX = x - 80.0f;
 			}
@@ -109,7 +109,7 @@ void GoldEnemy::Update() {
 			changeMovedFlag[indexY] = false;
 		}
 		else if (newMoveType == 4) {
-			if (x + 40.0f < 600.0f) {
+			if (x + 80.0f < 600.0f) {
 				newMoveX = 1.0f;
 				sidePosX = x + 80.0f;
 			}

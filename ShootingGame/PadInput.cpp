@@ -7,7 +7,6 @@ XINPUT_STATE PAD_INPUT::Input;
 
 void PAD_INPUT::UpdateInput() {
 	GetJoypadXInputState(DX_INPUT_KEY_PAD1, &Input);
-	clsDx();
 	for (int i = 0; i < BUTTONS; i++)
 	{
 		if (NowKey[i] != -1) {

@@ -169,6 +169,7 @@
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PowerUpItem.cpp" />
     <ClCompile Include="BishopEnemy.cpp" />
+    <ClCompile Include="RookEnemy.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SilverEnemy.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PowerUpItem.h" />
     <ClInclude Include="BishopEnemy.h" />
+    <ClInclude Include="RookEnemy.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SilverEnemy.h" />
     <ClInclude Include="SphereCollider.h" />

@@ -7,6 +7,7 @@
 #include "SilverEnemy.h"
 #include "GoldEnemy.h"
 #include "BishopEnemy.h"
+#include "RookEnemy.h"
 #include "BulletsBase.h"
 #include "PowerUpItem.h"
 
@@ -47,16 +48,13 @@ AbstractScene* GameMain::Update() {
 					}
 				}
 				else {
-					/*if (enemyType - 950 < 25) {
-						enemy[i] = new SilverEnemy(3.0f, 15, 100, 3);
+					if (enemyType - 950 < 25) {
+						enemy[i] = new BishopEnemy(6, 15, 100, 3);
 					}
 					else {
-						enemy[i] = new GoldEnemy(3.0f, 15, 100, 3);
-					}*/
-					enemy[i] = new BishopEnemy(6, 15, 100, 3);
+						enemy[i] = new RookEnemy(6, 15, 100, 3);
+					}
 				}
-				//clsDx();
-				//printfDx("enemyType: %d\n", enemyType);
 				enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 				break;
 			}
