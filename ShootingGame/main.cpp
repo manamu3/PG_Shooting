@@ -5,10 +5,10 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
-	SetMainWindowText("");
+	SetMainWindowText("シューティングゲーム（仮）");
 	ChangeWindowMode(TRUE);
 	SetGraphMode(640, 480, 32);
-	
+	SetAlwaysRunFlag(TRUE);
 	if (DxLib_Init() == -1) return -1;
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager sceneManager(new Title());
