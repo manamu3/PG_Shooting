@@ -99,6 +99,87 @@ void Enemy::ChangeMove(float _moveX, float _moveY) {
 	moveY = _moveY;
 }
 
+void Enemy::ChangeMove(MOVE_TYPE *moveType) {
+	switch (*moveType) {
+		case MOVE_TYPE::UP: {
+			moveX = 0.0f;
+			moveY = -1.0f;
+			break;
+		}
+		case MOVE_TYPE::UP_LEFT: {
+			if (x - 80.0f > 40.0f) {
+				moveX = cosf(225.0f * (DX_PI_F / 180.0f));
+			}
+			else {
+				moveX = cosf(315.0f * (DX_PI_F / 180.0f));
+				*moveType = MOVE_TYPE::UP_RIGHT;
+			}
+			moveY = sinf(225.0f * (DX_PI_F / 180.0f));
+			break;
+		}
+		case MOVE_TYPE::UP_RIGHT: {
+			if (x + 80.0f < 600.0f) {
+				moveX = cosf(315.0f * (DX_PI_F / 180.0f));
+			}
+			else {
+				moveX = cosf(225.0f * (DX_PI_F / 180.0f));
+				*moveType = MOVE_TYPE::UP_LEFT;
+			}
+			moveY = sinf(225.0f * (DX_PI_F / 180.0f));
+			break;
+		}
+		case MOVE_TYPE::DOWN: {
+			moveX = 0.0f;
+			moveY = 1.0f;
+			break;
+		}
+		case MOVE_TYPE::DOWN_LEFT: {
+			if (x - 80.0f > 40.0f) {
+				moveX = cosf(135.0f * (DX_PI_F / 180.0f));
+			}
+			else {
+				moveX = cosf(45.0f * (DX_PI_F / 180.0f));
+				*moveType = MOVE_TYPE::DOWN_RIGHT;
+			}
+			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
+			break;
+		}
+		case MOVE_TYPE::DOWN_RIGHT: {
+			if (x + 80.0f < 600.0f) {
+				moveX = cosf(45.0f * (DX_PI_F / 180.0f));
+			}
+			else {
+				moveX = cosf(135.0f * (DX_PI_F / 180.0f));
+				*moveType = MOVE_TYPE::DOWN_LEFT;
+			}
+			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
+			break;
+		}
+		case MOVE_TYPE::LEFT: {
+			if (x - 80.0f > 40.0f) {
+				moveX = -1.0f;
+			}
+			else {
+				moveX = 1.0f;
+				*moveType = MOVE_TYPE::RIGHT;
+			}
+			moveY = 0.0f;
+			break;
+		}
+		case MOVE_TYPE::RIGHT: {
+			if (x + 80.0f < 600.0f) {
+				moveX = 1.0f;
+			}
+			else {
+				moveX = -1.0f;
+				*moveType = MOVE_TYPE::LEFT;
+			}
+			moveY = 0.0f;
+			break;
+		}
+	}
+}
+
 Enemy::~Enemy() {
 	if (bullets != nullptr) {
 		for (int i = 0; i < BULLET_MAX; i++) {

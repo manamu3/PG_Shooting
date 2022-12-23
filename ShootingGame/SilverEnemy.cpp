@@ -16,38 +16,13 @@ SilverEnemy::SilverEnemy(float _speed, float _radius, int _point, int _hp) {
 
 	std::vector<float> bulletAngle = { 45.0f, 90.0f, 135.0f, 225.0f, 315.0f };
 
-	float moveX = 0.0f;
-	float moveY = 0.0f;
-	int moveType = GetRand(2);
-	if (moveType == 0) {
-		if (x - 40.0f > 40.0f) {
-			moveX = cosf(135.0f * (DX_PI_F / 180.0f));
-		}
-		else {
-			moveX = cosf(45.0f * (DX_PI_F / 180.0f));
-		}
-		moveY = sinf(135.0f * (DX_PI_F / 180.0f));
-	}
-	else if (moveType == 1) {
-		moveX = 0.0f;
-		moveY = 1.0f;
-	}
-	else if (moveType == 2) {
-		if (x + 40.0f < 600.0f) {
-			moveX = cosf(45.0f * (DX_PI_F / 180.0f));
-		}
-		else {
-			moveX = cosf(135.0f * (DX_PI_F / 180.0f));
-		}
-		moveY = sinf(135.0f * (DX_PI_F / 180.0f));
-	}
+	MOVE_TYPE move = moveDirections[GetRand(2)];
+	ChangeMove(&move);
 
 	Initialize(x, moveX, moveY, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
 
 void SilverEnemy::Update() {
-	float newMoveX = moveX;
-	float newMoveY = moveY;
 	int indexY = 0;
 	if (backMoveFlag) {
 		if (backPosY > y) {
@@ -64,47 +39,10 @@ void SilverEnemy::Update() {
 		if (newMoveType > 2 && y - 40.0f < 40) {
 			newMoveType = GetRand(2);
 		}
-		if (newMoveType == 0) {
-			if (x - 40.0f > 40.0f) {
-				newMoveX = cosf(135.0f * (DX_PI_F / 180.0f));
-			}
-			else {
-				newMoveX = cosf(45.0f * (DX_PI_F / 180.0f));
-			}
-			newMoveY = sinf(135.0f * (DX_PI_F / 180.0f));
-		}
-		else if (newMoveType == 1) {
-			newMoveX = 0.0f;
-			newMoveY = 1.0f;
-		}
-		else if (newMoveType == 2) {
-			if (x + 40.0f < 600.0f) {
-				newMoveX = cosf(45.0f * (DX_PI_F / 180.0f));
-			}
-			else {
-				newMoveX = cosf(135.0f * (DX_PI_F / 180.0f));
-			}
-			newMoveY = sinf(135.0f * (DX_PI_F / 180.0f));
-		}
-		else if (newMoveType == 3) {
-			if (x - 40.0f > 40.0f) {
-				newMoveX = cosf(225.0f * (DX_PI_F / 180.0f));
-			}
-			else {
-				newMoveX = cosf(315.0f * (DX_PI_F / 180.0f));
-			}
-			newMoveY = sinf(225.0f * (DX_PI_F / 180.0f));
-		}
-		else if (newMoveType == 4) {
-			if (x + 40.0f < 600.0f) {
-				newMoveX = cosf(315.0f * (DX_PI_F / 180.0f));
-			}
-			else {
-				newMoveX = cosf(225.0f * (DX_PI_F / 180.0f));
-			}
-			newMoveY = sinf(225.0f * (DX_PI_F / 180.0f));
-		}
-		if (newMoveType > 2) {
+		MOVE_TYPE moveDirection = moveDirections[newMoveType];
+		ChangeMove(&moveDirection);
+
+		if (moveDirection == MOVE_TYPE::UP_LEFT || moveDirection == MOVE_TYPE::UP_RIGHT) {
 			backMoveFlag = true;
 			backPosY = y - 40.0f;
 			if (indexY - 1 >= 0) {
@@ -112,7 +50,6 @@ void SilverEnemy::Update() {
 			}
 			changeMovedFlag[indexY] = false;
 		}
-		ChangeMove(newMoveX, newMoveY);
 	}
 	Enemy::Update();
 }

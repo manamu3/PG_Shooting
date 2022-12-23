@@ -18,38 +18,13 @@ GoldEnemy::GoldEnemy(float _speed, float _radius, int _point, int _hp) {
 
 	std::vector<float> bulletAngle = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 270.0f };
 
-	float moveX = 0.0f;
-	float moveY = 0.0f;
-	int moveType = GetRand(2);
-	if (moveType == 0) {
-		if (x - 40.0f > 40.0f) {
-			moveX = cosf(135.0f * (DX_PI_F / 180.0f));
-		}
-		else {
-			moveX = cosf(45.0f * (DX_PI_F / 180.0f));
-		}
-		moveY = sinf(135.0f * (DX_PI_F / 180.0f));
-	}
-	else if (moveType == 1) {
-		moveX = 0.0f;
-		moveY = 1.0f;
-	}
-	else if (moveType == 2) {
-		if (x + 40.0f < 600.0f) {
-			moveX = cosf(45.0f * (DX_PI_F / 180.0f));
-		}
-		else {
-			moveX = cosf(135.0f * (DX_PI_F / 180.0f));
-		}
-		moveY = sinf(135.0f * (DX_PI_F / 180.0f));
-	}
+	MOVE_TYPE move = moveDirections[GetRand(2)];
+	ChangeMove(&move);
 
 	Initialize(x, moveX, moveY, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
 
 void GoldEnemy::Update() {
-	float newMoveX = moveX;
-	float newMoveY = moveY;
 	int indexY = 0;
 	if (backMoveFlag) {
 		if (backPosY > y) {
@@ -57,73 +32,29 @@ void GoldEnemy::Update() {
 			backMoveFlag = false;
 		}
 	}
-	else {
-		if (sideMoveFlag) {
-			if (fabsf(sidePosX - x) < speed) {
-				indexY = floorf(y / (480.0f / 9.0f));
-			}
-		}
-		else {
+	else if (sideMoveFlag) {
+		if (fabsf(sidePosX - x) < speed) {
 			indexY = floorf(y / (480.0f / 9.0f));
 		}
+	}
+	else {
+		indexY = floorf(y / (480.0f / 9.0f));
 	}
 	if (!changeMovedFlag[indexY]) {
 		changeMovedFlag[indexY] = true;
 		int newMoveType = GetRand(5);
-		if (newMoveType > 2 && y - 40.0f < 40) {
+		if (newMoveType > 4 && y - 40.0f < 40) {
 			newMoveType = GetRand(4);
 		}
-		if (newMoveType == 0) {
-			if (x - 80.0f > 40.0f) {
-				newMoveX = cosf(135.0f * (DX_PI_F / 180.0f));
-			}
-			else {
-				newMoveX = cosf(45.0f * (DX_PI_F / 180.0f));
-			}
-			newMoveY = sinf(135.0f * (DX_PI_F / 180.0f));
-		}
-		else if (newMoveType == 1) {
-			newMoveX = 0.0f;
-			newMoveY = 1.0f;
-		}
-		else if (newMoveType == 2) {
-			if (x + 80.0f < 600.0f) {
-				newMoveX = cosf(45.0f * (DX_PI_F / 180.0f));
-			}
-			else {
-				newMoveX = cosf(135.0f * (DX_PI_F / 180.0f));
-			}
-			newMoveY = sinf(135.0f * (DX_PI_F / 180.0f));
-		}
-		else if (newMoveType == 3) {
-			if (x - 80.0f > 40.0f) {
-				newMoveX = -1.0f;
-				sidePosX = x - 80.0f;
-			}
-			else {
-				newMoveX = 1.0f;
-				sidePosX = x + 80.0f;
-			}
-			newMoveY = 0.0f;
+		MOVE_TYPE moveDirection = moveDirections[newMoveType];
+		ChangeMove(&moveDirection);
+
+		if (moveDirection == MOVE_TYPE::LEFT || moveDirection == MOVE_TYPE::RIGHT) {
+			sidePosX = 80.0f * moveX + x;
 			sideMoveFlag = true;
 			changeMovedFlag[indexY] = false;
 		}
-		else if (newMoveType == 4) {
-			if (x + 80.0f < 600.0f) {
-				newMoveX = 1.0f;
-				sidePosX = x + 80.0f;
-			}
-			else {
-				newMoveX = -1.0f;
-				sidePosX = x - 80.0f;
-			}
-			newMoveY = 0.0f;
-			sideMoveFlag = true;
-			changeMovedFlag[indexY] = false;
-		}
-		else if (newMoveType == 5) {
-			newMoveX = 0.0f;
-			newMoveY = -1.0f;
+		else if (moveDirection == MOVE_TYPE::UP) {
 			backMoveFlag = true;
 			backPosY = y - 40.0f;
 			if (indexY - 1 >= 0) {
@@ -131,7 +62,6 @@ void GoldEnemy::Update() {
 			}
 			changeMovedFlag[indexY] = false;
 		}
-		ChangeMove(newMoveX, newMoveY);
 	}
 	Enemy::Update();
 }

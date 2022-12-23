@@ -7,8 +7,12 @@ private:
 	bool backMoveFlag;
 	float backPosY;
 	bool sideMoveFlag;
-	int sideMoveType;
 	float sidePosX;
+
+	const MOVE_TYPE moveDirections[4] = {
+		MOVE_TYPE::DOWN, MOVE_TYPE::LEFT, MOVE_TYPE::RIGHT, MOVE_TYPE::UP
+	};
+
 public:
 	RookEnemy(float _speed, float _radius, int _point, int _hp);
 	void Update() override;
