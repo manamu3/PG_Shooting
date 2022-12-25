@@ -2,18 +2,21 @@
 #include "CharaBase.h"
 #include <vector>
 
-#define ENEMY_BULLET_INTERVAL 180
-
 class Enemy : public CharaBase
 {
-protected:
+private:
 	int hp;
 	int point;
 	int bulletTime = 0;
-	float bulletSpeed;
+	int bulletCount = 0;
 	int bulletDamage;
+	float bulletSpeed;
 	bool isDamage;
 	std::vector<float> bulletDirection;
+
+	static const int ENEMY_BULLET_INTERVAL = 180;
+
+protected:
 
 	enum class MOVE_TYPE {
 		UP,
@@ -35,12 +38,12 @@ public:
 	void Draw() const override;
 	void Hit(Location) override;
 	void Damage(int);
-	bool HpCheck();
-	bool IsDamage();
-	int GetPoint();
 	void Disabled() { isActive = false; }
 	void ChangeMove(MOVE_TYPE *moveType);
 	void ChangeMove(float _moveX, float _moveY);
+	bool HpCheck() { return hp <= 0; }
+	bool IsDamage() { return isDamage; }
+	int GetPoint() { return point; }
 	~Enemy();
 };
 

@@ -14,6 +14,9 @@ private:
 	Enemy** enemy = nullptr;
 	ItemBase** item = nullptr;
 	int enemyCreateTime;
+
+	static const int ENEMY_MAX = 30;
+	static const int ITEM_MAX = 30;
 	
 public:
 	GameMain();
@@ -21,5 +24,7 @@ public:
 	virtual AbstractScene* Update() override;
 	virtual void Draw() const override;
 	void HitCheck();
+	void CreateEnemy();
+	void CreateItem(Location pos);
 };
 

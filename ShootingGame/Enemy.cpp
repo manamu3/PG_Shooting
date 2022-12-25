@@ -10,6 +10,7 @@ void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float 
 	hp = _hp;
 	point = _point;
 	isDamage = false;
+	bulletCount = 0;
 	bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 	bulletDirection = _bulletAngle;
 	bulletSpeed = _bulletSpeed;
@@ -18,7 +19,6 @@ void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float 
 }
 
 void Enemy::Update() {
-	static int bulletCnt = 0;
 	if (isActive) {
 		x += moveX * speed;
 		y += moveY * speed;
@@ -28,30 +28,27 @@ void Enemy::Update() {
 			isActive = false;
 		}
 		if (--bulletTime <= 0) {
-			bool shotBullet = false;
-			for (int i = 0; i < BULLET_MAX; i++) {
+			int count = 0;
+			for (int i = bulletCount; i < BULLET_MAX; i++) {
 				if (bullets[i] == nullptr) {
-					bullets[i] = new EnemyBullet(x, y, bulletDirection[bulletCnt], bulletSpeed, bulletDamage, 0xFFFF00);
-					if (++bulletCnt >= bulletDirection.size()) {
-						shotBullet = true;
+					bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0xFFFF00);
+					bulletCount++;
+					if (++count >= bulletDirection.size()) {
 						break;
 					}
 				}
 			}
-			if (shotBullet) {
-				bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
-				bulletCnt = 0;
-			}
+			bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 		}
 	}
-	if (bullets != nullptr) {
-		for (int i = 0; i < BULLET_MAX; i++) {
-			if (bullets[i] != nullptr) {
-				bullets[i]->Update();
-				if (!bullets[i]->IsActive()) {
-					delete bullets[i];
-					bullets[i] = nullptr;
-				}
+	for (int i = 0; i < bulletCount; i++) {
+		if (bullets[i] != nullptr) {
+			bullets[i]->Update();
+			if (!bullets[i]->IsActive()) {
+				bulletCount--;
+				*bullets[i--] = *bullets[bulletCount];
+				delete bullets[bulletCount];
+				bullets[bulletCount] = nullptr;
 			}
 		}
 	}
@@ -61,7 +58,7 @@ void Enemy::Draw() const {
 	if (isActive) {
 		DrawRotaGraphF(x, y, 1.0, 0.0, images[0], TRUE);
 	}
-	for (int i = 0; i < BULLET_MAX; i++) {
+	for (int i = 0; i < bulletCount; i++) {
 		if (bullets[i] != nullptr) {
 			bullets[i]->Draw();
 		}
@@ -80,18 +77,6 @@ void Enemy::Damage(int damage) {
 		isActive = false;
 	}
 	isDamage = false;
-}
-
-bool Enemy::IsDamage() {
-	return isDamage;
-}
-
-bool Enemy::HpCheck() {
-	return hp <= 0;
-}
-
-int Enemy::GetPoint() {
-	return point;
 }
 
 void Enemy::ChangeMove(float _moveX, float _moveY) {
@@ -189,4 +174,6 @@ Enemy::~Enemy() {
 			}
 		}
 	}
+
+	delete[] bullets;
 }
