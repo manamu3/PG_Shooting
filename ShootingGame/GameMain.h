@@ -32,6 +32,7 @@ public:
 	void CreateEnemy();
 	void CreateItem(Location pos);
 	void DeleteEnemy(int* i);
+	void DeleteItem(int* i);
 
 	bool GetPawnX(int *x);
 };

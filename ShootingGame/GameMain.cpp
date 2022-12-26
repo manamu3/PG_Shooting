@@ -51,12 +51,11 @@ AbstractScene* GameMain::Update() {
 		}
 	}
 
-	for (int i = 0; i < ITEM_MAX; i++) {
+	for (int i = 0; i < itemCount; i++) {
 		if (item[i] != nullptr) {
 			item[i]->Update();
 			if (!item[i]->IsActive()) {
-				delete item[i];
-				item[i] = nullptr;
+				DeleteItem(&i);
 			}
 		}
 	}
@@ -74,7 +73,7 @@ void GameMain::Draw() const {
 		}
 	}
 
-	for (int i = 0; i < ITEM_MAX; i++) {
+	for (int i = 0; i < itemCount; i++) {
 		if (item[i] != nullptr) {
 			item[i]->Draw();
 		}
@@ -144,9 +143,10 @@ bool GameMain::GetPawnX(int* x) {
 }
 
 void GameMain::CreateItem(Location pos) {
-	for (int i = 0; i < ITEM_MAX; i++) {
+	for (int i = itemCount; i < ITEM_MAX; i++) {
 		if (item[i] == nullptr) {
 			item[i] = new PowerUpItem(pos.x, pos.y);
+			itemCount++;
 			return;
 		}
 	}
@@ -163,6 +163,14 @@ void GameMain::DeleteEnemy(int *i) {
 	*enemy[enemyCount] = temp;
 	delete enemy[enemyCount];
 	enemy[enemyCount] = nullptr;
+	(*i)--;
+}
+
+void GameMain::DeleteItem(int *i) {
+	itemCount--;
+	*item[*i] = *item[itemCount];
+	delete item[itemCount];
+	item[itemCount] = nullptr;
 	(*i)--;
 }
 
@@ -203,7 +211,7 @@ void GameMain::HitCheck() {
 			}
 		}
 	}
-	for (int i = 0; i < ITEM_MAX; i++) {
+	for (int i = 0; i < itemCount; i++) {
 		if (item[i] == nullptr) continue;
 
 		if (item[i]->Hit(player.GetLocation())) {
@@ -212,6 +220,7 @@ void GameMain::HitCheck() {
 				player.AddAttackBullet(1);
 				break;
 			}
+			DeleteItem(&i);
 		}
 	}
 }
