@@ -2,7 +2,6 @@
 #include "DxLib.h"
 
 PawnEnemy::PawnEnemy(float _x, float _speed, float _radius, int _point, int _hp) {
-	images[0] = GetImage(0, 0);
 	enemyType = ENEMY_TYPE::PAWN;
 
 	std::vector<float> bulletAngle = { 90 };

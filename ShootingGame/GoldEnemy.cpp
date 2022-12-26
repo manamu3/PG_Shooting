@@ -3,7 +3,6 @@
 #include <math.h>
 
 GoldEnemy::GoldEnemy(float _speed, float _radius, int _point, int _hp) {
-	images[0] = GetImage(4, 0);
 	enemyType = ENEMY_TYPE::GOLD;
 
 	int randX = GetRand(8);
@@ -20,7 +19,7 @@ GoldEnemy::GoldEnemy(float _speed, float _radius, int _point, int _hp) {
 	std::vector<float> bulletAngle = { 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 270.0f };
 
 	MOVE_TYPE move = moveDirections[GetRand(2)];
-	ChangeMove(&move);
+	ChangeMove(move);
 
 	Initialize(x, moveX, moveY, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
@@ -48,7 +47,7 @@ void GoldEnemy::Update() {
 			newMoveType = GetRand(4);
 		}
 		MOVE_TYPE moveDirection = moveDirections[newMoveType];
-		ChangeMove(&moveDirection);
+		ChangeMove(moveDirection);
 
 		if (moveDirection == MOVE_TYPE::LEFT || moveDirection == MOVE_TYPE::RIGHT) {
 			sidePosX = 80.0f * moveX + x;

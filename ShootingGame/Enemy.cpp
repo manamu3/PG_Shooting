@@ -18,6 +18,7 @@ void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float 
 	bulletDirection = _bulletAngle;
 	bulletSpeed = _bulletSpeed;
 	bulletDamage = _bulletDamage;
+	ImageManager::GetEnemyImage(static_cast<int>(enemyType), images);
 	CharaBase::Init(x, 0, _moveX, _moveY, _speed, _radius);
 }
 
@@ -92,8 +93,8 @@ void Enemy::ChangeMove(float _moveX, float _moveY) {
 	moveY = _moveY;
 }
 
-void Enemy::ChangeMove(MOVE_TYPE *moveType) {
-	switch (*moveType) {
+void Enemy::ChangeMove(MOVE_TYPE &moveType) {
+	switch (moveType) {
 		case MOVE_TYPE::UP: {
 			moveX = 0.0f;
 			moveY = -1.0f;
@@ -105,7 +106,7 @@ void Enemy::ChangeMove(MOVE_TYPE *moveType) {
 			}
 			else {
 				moveX = cosf(315.0f * (DX_PI_F / 180.0f));
-				*moveType = MOVE_TYPE::UP_RIGHT;
+				moveType = MOVE_TYPE::UP_RIGHT;
 			}
 			moveY = sinf(225.0f * (DX_PI_F / 180.0f));
 			break;
@@ -116,7 +117,7 @@ void Enemy::ChangeMove(MOVE_TYPE *moveType) {
 			}
 			else {
 				moveX = cosf(225.0f * (DX_PI_F / 180.0f));
-				*moveType = MOVE_TYPE::UP_LEFT;
+				moveType = MOVE_TYPE::UP_LEFT;
 			}
 			moveY = sinf(225.0f * (DX_PI_F / 180.0f));
 			break;
@@ -132,7 +133,7 @@ void Enemy::ChangeMove(MOVE_TYPE *moveType) {
 			}
 			else {
 				moveX = cosf(45.0f * (DX_PI_F / 180.0f));
-				*moveType = MOVE_TYPE::DOWN_RIGHT;
+				moveType = MOVE_TYPE::DOWN_RIGHT;
 			}
 			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
 			break;
@@ -143,7 +144,7 @@ void Enemy::ChangeMove(MOVE_TYPE *moveType) {
 			}
 			else {
 				moveX = cosf(135.0f * (DX_PI_F / 180.0f));
-				*moveType = MOVE_TYPE::DOWN_LEFT;
+				moveType = MOVE_TYPE::DOWN_LEFT;
 			}
 			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
 			break;
@@ -154,7 +155,7 @@ void Enemy::ChangeMove(MOVE_TYPE *moveType) {
 			}
 			else {
 				moveX = 1.0f;
-				*moveType = MOVE_TYPE::RIGHT;
+				moveType = MOVE_TYPE::RIGHT;
 			}
 			moveY = 0.0f;
 			break;
@@ -165,7 +166,7 @@ void Enemy::ChangeMove(MOVE_TYPE *moveType) {
 			}
 			else {
 				moveX = -1.0f;
-				*moveType = MOVE_TYPE::LEFT;
+				moveType = MOVE_TYPE::LEFT;
 			}
 			moveY = 0.0f;
 			break;

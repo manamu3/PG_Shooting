@@ -46,7 +46,7 @@ AbstractScene* GameMain::Update() {
 		if (enemy[i] != nullptr) {
 			enemy[i]->Update();
 			if (!enemy[i]->IsActive()) {
-				DeleteEnemy(&i);
+				DeleteEnemy(i);
 			}
 		}
 	}
@@ -55,7 +55,7 @@ AbstractScene* GameMain::Update() {
 		if (item[i] != nullptr) {
 			item[i]->Update();
 			if (!item[i]->IsActive()) {
-				DeleteItem(&i);
+				DeleteItem(i);
 			}
 		}
 	}
@@ -86,7 +86,7 @@ void GameMain::CreateEnemy() {
 		if (enemy[i] == nullptr) {
 			if (enemyType < 650) {
 				int x = GetRand(8);
-				if (GetPawnX(&x)) {
+				if (GetPawnX(x)) {
 					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 20.0f, 3, 15, 100, 3);
 					pawnActive[x] = true;
 					enemyCount++;
@@ -120,8 +120,8 @@ void GameMain::CreateEnemy() {
 	}
 }
 
-bool GameMain::GetPawnX(int* x) {
-	if (pawnActive[*x]) {
+bool GameMain::GetPawnX(int& x) {
+	if (pawnActive[x]) {
 		int i;
 		for (i = 0; i < 9; i++) {
 			if (!pawnActive[i]) {
@@ -129,8 +129,8 @@ bool GameMain::GetPawnX(int* x) {
 			}
 		}
 		if (i < 9) {
-			while (pawnActive[*x]) {
-				*x = GetRand(8);
+			while (pawnActive[x]) {
+				x = GetRand(8);
 			}
 			return true;
 		}
@@ -152,26 +152,24 @@ void GameMain::CreateItem(Location pos) {
 	}
 }
 
-void GameMain::DeleteEnemy(int *i) {
-	if (enemy[*i]->GetEnemyType() == ENEMY_TYPE::PAWN) {
-		int x = (enemy[*i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
+void GameMain::DeleteEnemy(int &i) {
+	if (enemy[i]->GetEnemyType() == ENEMY_TYPE::PAWN) {
+		int x = (enemy[i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
 		pawnActive[x] = false;
 	}
 	enemyCount--;
-	Enemy temp = *enemy[*i];
-	*enemy[*i] = *enemy[enemyCount];
-	*enemy[enemyCount] = temp;
+	*enemy[i] = *enemy[enemyCount];
 	delete enemy[enemyCount];
 	enemy[enemyCount] = nullptr;
-	(*i)--;
+	(i)--;
 }
 
-void GameMain::DeleteItem(int *i) {
+void GameMain::DeleteItem(int &i) {
 	itemCount--;
-	*item[*i] = *item[itemCount];
+	*item[i] = *item[itemCount];
 	delete item[itemCount];
 	item[itemCount] = nullptr;
-	(*i)--;
+	(i)--;
 }
 
 void GameMain::HitCheck() {
@@ -189,7 +187,7 @@ void GameMain::HitCheck() {
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
 				if (enemy[i]->HpCheck()) {
 					CreateItem(enemy[i]->GetLocation());
-					DeleteEnemy(&i);
+					DeleteEnemy(i);
 				}
 				
 				playerBullets[j]->Disabled();
@@ -220,7 +218,7 @@ void GameMain::HitCheck() {
 				player.AddAttackBullet(1);
 				break;
 			}
-			DeleteItem(&i);
+			DeleteItem(i);
 		}
 	}
 }

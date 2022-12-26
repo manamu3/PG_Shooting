@@ -2,7 +2,6 @@
 #include "DxLib.h"
 
 LanceEnemy::LanceEnemy(float _speed, float _radius, int _point, int _hp) {
-	images[0] = GetImage(1, 0);
 	enemyType = ENEMY_TYPE::LANCE;
 
 	int randX = GetRand(8);

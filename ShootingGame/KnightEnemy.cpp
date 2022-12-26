@@ -3,7 +3,6 @@
 #include <math.h>
 
 KnightEnemy::KnightEnemy(float _speed, float _radius, int _point, int _hp) {
-	images[0] = GetImage(2, 0);
 	enemyType = ENEMY_TYPE::KNIGHT;
 
 	int randX = GetRand(8);
@@ -39,10 +38,10 @@ KnightEnemy::KnightEnemy(float _speed, float _radius, int _point, int _hp) {
 }
 
 void KnightEnemy::Update() {
-	float newMoveX = moveX;
 	int indexY = floorf(y / (480.0f / 4.5f));
 	if (!changeMovedFlag[indexY]) {
 		changeMovedFlag[indexY] = true;
+		float newMoveX = moveX;
 		int newMoveType = GetRand(1);
 		if (newMoveType == 0) {
 			if (x - 40.0f > 40.0f) {

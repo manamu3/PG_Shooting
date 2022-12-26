@@ -3,7 +3,6 @@
 #include <math.h>
 
 BishopEnemy::BishopEnemy(float _speed, float _radius, int _point, int _hp) {
-	images[0] = GetImage(5, 0);
 	enemyType = ENEMY_TYPE::BISHOP;
 
 	int randX = GetRand(8);
@@ -18,7 +17,7 @@ BishopEnemy::BishopEnemy(float _speed, float _radius, int _point, int _hp) {
 	std::vector<float> bulletAngle = { 45.0f, 135.0f, 225.0f, 315.0f };
 
 	MOVE_TYPE move = moveDirections[GetRand(1)];
-	ChangeMove(&move);
+	ChangeMove(move);
 
 	Initialize(x, moveX, moveY, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
@@ -41,7 +40,7 @@ void BishopEnemy::Update() {
 			newMoveType = GetRand(1);
 		}
 		MOVE_TYPE moveDirection = moveDirections[newMoveType];
-		ChangeMove(&moveDirection);
+		ChangeMove(moveDirection);
 
 		if (moveDirection == MOVE_TYPE::UP_LEFT || moveDirection == MOVE_TYPE::UP_RIGHT) {
 			backMoveFlag = true;

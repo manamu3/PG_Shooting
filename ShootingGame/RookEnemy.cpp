@@ -3,7 +3,6 @@
 #include <math.h>
 
 RookEnemy::RookEnemy(float _speed, float _radius, int _point, int _hp) {
-	images[0] = GetImage(6, 0);
 	enemyType = ENEMY_TYPE::ROOK;
 
 	int randX = GetRand(8);
@@ -44,7 +43,7 @@ void RookEnemy::Update() {
 			newMoveType = GetRand(2);
 		}
 		MOVE_TYPE moveDirection = moveDirections[newMoveType];
-		ChangeMove(&moveDirection);
+		ChangeMove(moveDirection);
 
 		if (moveDirection == MOVE_TYPE::UP) {
 			backMoveFlag = true;

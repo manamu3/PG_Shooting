@@ -31,9 +31,9 @@ public:
 	void HitCheck();
 	void CreateEnemy();
 	void CreateItem(Location pos);
-	void DeleteEnemy(int* i);
-	void DeleteItem(int* i);
+	void DeleteEnemy(int& i);
+	void DeleteItem(int& i);
 
-	bool GetPawnX(int *x);
+	bool GetPawnX(int& x);
 };
 

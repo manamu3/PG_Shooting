@@ -5,7 +5,7 @@
 
 #define BULLET_MAX 100
 
-class CharaBase : public SphereCollider, public ImageManager
+class CharaBase : public SphereCollider
 {
 protected:
 	BulletsBase **bullets = nullptr;

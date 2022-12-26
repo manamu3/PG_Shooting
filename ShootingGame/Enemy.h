@@ -8,8 +8,8 @@ enum class ENEMY_TYPE {
 	KNIGHT,
 	SILVER,
 	GOLD,
-	ROOK,
-	BISHOP
+	BISHOP,
+	ROOK
 };
 
 class Enemy : public CharaBase
@@ -53,7 +53,7 @@ public:
 	void Hit(Location) override;
 	void Damage(int);
 	void Disabled() { isActive = false; }
-	void ChangeMove(MOVE_TYPE *moveType);
+	void ChangeMove(MOVE_TYPE &moveType);
 	void ChangeMove(float _moveX, float _moveY);
 	void CreateBullet();
 
