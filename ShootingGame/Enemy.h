@@ -2,6 +2,16 @@
 #include "CharaBase.h"
 #include <vector>
 
+enum class ENEMY_TYPE {
+	PAWN,
+	LANCE,
+	KNIGHT,
+	SILVER,
+	GOLD,
+	ROOK,
+	BISHOP
+};
+
 class Enemy : public CharaBase
 {
 private:
@@ -17,6 +27,7 @@ private:
 	static const int ENEMY_BULLET_INTERVAL = 180;
 
 protected:
+	ENEMY_TYPE enemyType;
 
 	enum class MOVE_TYPE {
 		UP,
@@ -33,6 +44,9 @@ protected:
 
 public:
 	//Enemy(std::vector<MOVE_TYPE> move) : moveDirections{ move } {}
+	Enemy();
+	~Enemy();
+
 	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle, float _bulletSpeed, int _bulletDamage);
 	void Update() override;
 	void Draw() const override;
@@ -41,9 +55,12 @@ public:
 	void Disabled() { isActive = false; }
 	void ChangeMove(MOVE_TYPE *moveType);
 	void ChangeMove(float _moveX, float _moveY);
+	void CreateBullet();
+
 	bool HpCheck() { return hp <= 0; }
 	bool IsDamage() { return isDamage; }
 	int GetPoint() { return point; }
-	~Enemy();
+	int GetBulletNum() { return bulletCount; }
+	ENEMY_TYPE GetEnemyType() { return enemyType; }
 };
 

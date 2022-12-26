@@ -19,12 +19,19 @@ GameMain::GameMain() {
 	for (int i = 0; i < ENEMY_MAX; i++) {
 		enemy[i] = nullptr;
 	}
+	for (int i = 0; i < 9; i++) {
+		pawnActive[i] = false;
+	}
 
 	item = new ItemBase *[ITEM_MAX];
 	for (int i = 0; i < ITEM_MAX; i++) {
 		item[i] = nullptr;
 	}
+
 	enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
+
+	enemyCount = 0;
+	itemCount = 0;
 }
 
 AbstractScene* GameMain::Update() {
@@ -35,12 +42,11 @@ AbstractScene* GameMain::Update() {
 		enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 	}
 
-	for (int i = 0; i < ENEMY_MAX; i++) {
+	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] != nullptr) {
 			enemy[i]->Update();
 			if (!enemy[i]->IsActive()) {
-				delete enemy[i];
-				enemy[i] = nullptr;
+				DeleteEnemy(&i);
 			}
 		}
 	}
@@ -62,8 +68,7 @@ AbstractScene* GameMain::Update() {
 
 void GameMain::Draw() const {
 	player.Draw();
-
-	for (int i = 0; i < ENEMY_MAX; i++) {
+	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] != nullptr) {
 			enemy[i]->Draw();
 		}
@@ -78,12 +83,21 @@ void GameMain::Draw() const {
 
 void GameMain::CreateEnemy() {
 	int enemyType = GetRand(999);
-	for (int i = 0; i < ENEMY_MAX; i++) {
+	for (int i = enemyCount; i < ENEMY_MAX; i++) {
 		if (enemy[i] == nullptr) {
 			if (enemyType < 650) {
-				enemy[i] = new PawnEnemy(3, 15, 100, 3);
+				int x = GetRand(8);
+				if (GetPawnX(&x)) {
+					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 20.0f, 3, 15, 100, 3);
+					pawnActive[x] = true;
+					enemyCount++;
+					return;
+				}
+				else {
+					enemyType = GetRand(349) + 650;
+				}
 			}
-			else if (enemyType < 750) {
+			if (enemyType < 750) {
 				enemy[i] = new LanceEnemy(6, 15, 100, 3);
 			}
 			else if (enemyType < 850) {
@@ -101,9 +115,32 @@ void GameMain::CreateEnemy() {
 			else {
 				enemy[i] = new RookEnemy(6, 15, 100, 3);
 			}
+			enemyCount++;
 			return;
 		}
 	}
+}
+
+bool GameMain::GetPawnX(int* x) {
+	if (pawnActive[*x]) {
+		int i;
+		for (i = 0; i < 9; i++) {
+			if (!pawnActive[i]) {
+				break;
+			}
+		}
+		if (i < 9) {
+			while (pawnActive[*x]) {
+				*x = GetRand(8);
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void GameMain::CreateItem(Location pos) {
@@ -115,10 +152,24 @@ void GameMain::CreateItem(Location pos) {
 	}
 }
 
+void GameMain::DeleteEnemy(int *i) {
+	if (enemy[*i]->GetEnemyType() == ENEMY_TYPE::PAWN) {
+		int x = (enemy[*i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
+		pawnActive[x] = false;
+	}
+	enemyCount--;
+	Enemy temp = *enemy[*i];
+	*enemy[*i] = *enemy[enemyCount];
+	*enemy[enemyCount] = temp;
+	delete enemy[enemyCount];
+	enemy[enemyCount] = nullptr;
+	(*i)--;
+}
+
 void GameMain::HitCheck() {
 	BulletsBase** playerBullets = (player.GetBullets());
 	//“G‚Ì“–‚½‚è”»’è
-	for (int i = 0; i < ENEMY_MAX; i++) {
+	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] == nullptr) continue;
 		//ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½Žž‚Ìˆ—
 		player.Hit(enemy[i]->GetLocation());
@@ -128,21 +179,22 @@ void GameMain::HitCheck() {
 			enemy[i]->Hit(playerBullets[j]->GetLocation());
 			if (enemy[i]->IsDamage()) {
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
-				enemy[i]->Disabled();
-
-				CreateItem(enemy[i]->GetLocation());
+				if (enemy[i]->HpCheck()) {
+					CreateItem(enemy[i]->GetLocation());
+					DeleteEnemy(&i);
+				}
 				
 				playerBullets[j]->Disabled();
 				break;
 			}
 		}
 	}
-	for (int i = 0; i < ENEMY_MAX; i++) {
+	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] == nullptr) continue;
 
 		player.Hit(enemy[i]->GetLocation());
 		BulletsBase** enemyBullets = enemy[i]->GetBullets();
-		for (int j = 0; j < BULLET_MAX; j++) {
+		for (int j = 0; j < enemy[i]->GetBulletNum(); j++) {
 			if (enemyBullets[j] == nullptr) continue;
 			player.Hit(enemyBullets[j]->GetLocation());
 			if (player.IsDamage()) {

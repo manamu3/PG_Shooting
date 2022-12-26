@@ -2,16 +2,19 @@
 #include "DxLib.h"
 #include "EnemyBullet.h"
 
-void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle, float _bulletSpeed, int _bulletDamage) {
-	bullets = (new BulletsBase *[BULLET_MAX]);
+Enemy::Enemy() {
+	bullets = (new BulletsBase * [BULLET_MAX]);
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
 	}
-	hp = _hp;
-	point = _point;
 	isDamage = false;
 	bulletCount = 0;
 	bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
+}
+
+void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle, float _bulletSpeed, int _bulletDamage) {
+	hp = _hp;
+	point = _point;
 	bulletDirection = _bulletAngle;
 	bulletSpeed = _bulletSpeed;
 	bulletDamage = _bulletDamage;
@@ -28,16 +31,7 @@ void Enemy::Update() {
 			isActive = false;
 		}
 		if (--bulletTime <= 0) {
-			int count = 0;
-			for (int i = bulletCount; i < BULLET_MAX; i++) {
-				if (bullets[i] == nullptr) {
-					bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0xFFFF00);
-					bulletCount++;
-					if (++count >= bulletDirection.size()) {
-						break;
-					}
-				}
-			}
+			CreateBullet();
 			bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 		}
 	}
@@ -46,9 +40,23 @@ void Enemy::Update() {
 			bullets[i]->Update();
 			if (!bullets[i]->IsActive()) {
 				bulletCount--;
-				*bullets[i--] = *bullets[bulletCount];
+				*bullets[i] = *bullets[bulletCount];
 				delete bullets[bulletCount];
 				bullets[bulletCount] = nullptr;
+				i--;
+			}
+		}
+	}
+}
+
+void Enemy::CreateBullet() {
+	int count = 0;
+	for (int i = bulletCount; i < BULLET_MAX; i++) {
+		if (bullets[i] == nullptr) {
+			bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0xFFFF00);
+			bulletCount++;
+			if (++count >= bulletDirection.size()) {
+				break;
 			}
 		}
 	}
@@ -174,6 +182,4 @@ Enemy::~Enemy() {
 			}
 		}
 	}
-
-	delete[] bullets;
 }

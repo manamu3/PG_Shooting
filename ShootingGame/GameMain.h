@@ -15,6 +15,11 @@ private:
 	ItemBase** item = nullptr;
 	int enemyCreateTime;
 
+	bool pawnActive[9];
+
+	int enemyCount;
+	int itemCount;
+
 	static const int ENEMY_MAX = 30;
 	static const int ITEM_MAX = 30;
 	
@@ -26,5 +31,8 @@ public:
 	void HitCheck();
 	void CreateEnemy();
 	void CreateItem(Location pos);
+	void DeleteEnemy(int* i);
+
+	bool GetPawnX(int *x);
 };
 

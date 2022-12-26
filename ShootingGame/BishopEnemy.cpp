@@ -4,6 +4,7 @@
 
 BishopEnemy::BishopEnemy(float _speed, float _radius, int _point, int _hp) {
 	images[0] = GetImage(5, 0);
+	enemyType = ENEMY_TYPE::BISHOP;
 
 	int randX = GetRand(8);
 	float x = (640.0f / 9.0f) * (float)randX + 20.0f;

@@ -4,6 +4,7 @@
 
 KnightEnemy::KnightEnemy(float _speed, float _radius, int _point, int _hp) {
 	images[0] = GetImage(2, 0);
+	enemyType = ENEMY_TYPE::KNIGHT;
 
 	int randX = GetRand(8);
 	float x = (640.0f / 9.0f) * (float)randX + 20.0f;
