@@ -24,11 +24,11 @@ public:
 	void Update() override;
 	void Draw() const override;
 	bool Hit(Location) override;
-	bool LifeCheck();
-	bool IsDamage() { return isDamage; }
-	int GetScore();
 	void Move();
 	void Shot();
 	void AddAttackBullet(int attack) { bulletDamagePoint += attack; }
+	bool LifeCheck() { return life <= 0; }
+	bool IsDamage() { return isDamage; }
+	int GetScore() { return score; }
 };
 

@@ -17,9 +17,10 @@ protected:
 public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
+	void Disabled() { isActive = false; }
+
 	ITEM_TYPE GetType() { return type; }
 	bool IsActive() { return isActive; }
-	void Disabled() { isActive = false; }
 	bool Hit(Location player);
 };
 

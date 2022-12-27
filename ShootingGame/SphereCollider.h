@@ -13,8 +13,9 @@ private:
 
 public:
 	bool HitSphere(Location);
-	Location GetLocation();
-	void SetLocation(Location);
-	void SetRadius(float);
+	Location GetLocation() { return location; }
+
+	void SetLocation(Location _location) { location = _location; }
+	void SetRadius(float _radius) { radius = _radius; }
 };
 

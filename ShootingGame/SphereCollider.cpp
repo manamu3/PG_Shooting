@@ -9,15 +9,3 @@ bool SphereCollider::HitSphere(Location pos) {
 
 	return radius > sqrtf(length);
 }
-
-Location SphereCollider::GetLocation() {
-	return location;
-}
-
-void SphereCollider::SetLocation(Location location) {
-	this->location = location;
-}
-
-void SphereCollider::SetRadius(float radius) {
-	this->radius = radius;
-}

@@ -24,7 +24,3 @@ void CharaBase::DeleteBullet(int& i) {
 	bullets[bulletCount] = nullptr;
 	i--;
 }
-
-bool CharaBase::IsActive() {
-	return isActive;
-}

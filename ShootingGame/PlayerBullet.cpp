@@ -2,8 +2,6 @@
 #include "DxLib.h"
 #include <math.h>
 
-PlayerBullet::PlayerBullet() {};
-
 PlayerBullet::PlayerBullet(float _x, float _y, float _speed, int _damage, unsigned int _color) {
 	x = _x;
 	y = _y;

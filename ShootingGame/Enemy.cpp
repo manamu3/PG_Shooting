@@ -11,14 +11,16 @@ Enemy::Enemy() {
 	bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 }
 
-void Enemy::Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle, float _bulletSpeed, int _bulletDamage) {
+void Enemy::Initialize(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle, float _bulletSpeed, int _bulletDamage) {
 	hp = _hp;
 	point = _point;
 	bulletDirection = _bulletAngle;
 	bulletSpeed = _bulletSpeed;
 	bulletDamage = _bulletDamage;
 	ImageManager::GetEnemyImage(static_cast<int>(enemyType), images);
-	CharaBase::Init(x, 0, _moveX, _moveY, _speed, _radius);
+
+	float randX = (640.0f / 9.0f) * GetRand(8) + 20.0f;
+	CharaBase::Init(randX, 0, _moveX, _moveY, _speed, _radius);
 }
 
 void Enemy::Update() {

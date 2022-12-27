@@ -2,8 +2,6 @@
 #include "DxLib.h"
 #include <math.h>
 
-EnemyBullet::EnemyBullet() {};
-
 EnemyBullet::EnemyBullet(float _x, float _y, int _bulletAngle, float _speed, int _damage, unsigned int _color) {
 	x = _x;
 	y = _y;

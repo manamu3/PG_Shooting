@@ -22,15 +22,3 @@ void PAD_INPUT::UpdateInput() {
 		KeyFlg[i] = NowKey[i] & ~OldKey[i];
 	}
 }
-
-int PAD_INPUT::GetPadThumbLX() {
-	return Input.ThumbLX;
-}
-
-int PAD_INPUT::GetPadThumbLY() {
-	return -Input.ThumbLY;
-}
-
-int PAD_INPUT::GetNowKey(int key) {
-	return NowKey[key];
-}

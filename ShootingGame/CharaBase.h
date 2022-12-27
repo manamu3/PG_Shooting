@@ -23,9 +23,9 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() const = 0;
 	virtual bool Hit(Location) = 0;
+	void DeleteBullet(int& i);
 	BulletsBase **GetBullets();
 	int GetBulletNum() { return bulletCount; }
-	void DeleteBullet(int& i);
-	bool IsActive();
+	bool IsActive() { return isActive; }
 };
 

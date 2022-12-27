@@ -5,9 +5,6 @@
 SilverEnemy::SilverEnemy(float _speed, float _radius, int _point, int _hp) {
 	enemyType = ENEMY_TYPE::SILVER;
 
-	int randX = GetRand(8);
-	float x = (640.0f / 9.0f) * (float)randX + 20.0f;
-
 	backPosY = 0.0f;
 	backMoveFlag = false;
 	for (int i = 0; i < 9; i++) {
@@ -19,7 +16,7 @@ SilverEnemy::SilverEnemy(float _speed, float _radius, int _point, int _hp) {
 	MOVE_TYPE move = moveDirections[GetRand(2)];
 	ChangeMove(move);
 
-	Initialize(x, moveX, moveY, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
+	Initialize(moveX, moveY, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
 
 void SilverEnemy::Update() {

@@ -18,5 +18,5 @@ void PowerUpItem::Update() {
 }
 
 void PowerUpItem::Draw() const {
-	DrawCircle(x, y, 10, 0xFF, TRUE);
+	DrawCircle(x, y, 10, 0x0000FF, TRUE);
 }

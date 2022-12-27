@@ -6,7 +6,7 @@ private:
 	bool changeMovedFlag[9];
 	bool backMoveFlag;
 	float backPosY;
-	int sideMoveFlag;
+	bool sideMoveFlag;
 	float sidePosX;
 
 	const MOVE_TYPE moveDirections[6] = { 

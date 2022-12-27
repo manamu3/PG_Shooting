@@ -5,9 +5,6 @@
 RookEnemy::RookEnemy(float _speed, float _radius, int _point, int _hp) {
 	enemyType = ENEMY_TYPE::ROOK;
 
-	int randX = GetRand(8);
-	float x = (640.0f / 9.0f) * (float)randX + 20.0f;
-
 	backPosY = 0.0f;
 	backMoveFlag = false;
 	for (int i = 0; i < 9; i++) {
@@ -16,7 +13,7 @@ RookEnemy::RookEnemy(float _speed, float _radius, int _point, int _hp) {
 
 	std::vector<float> bulletAngle = { 0.0f, 90.0f, 180.0f, 270.0f };
 
-	Initialize(x, 0.0f, 1.0f, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
+	Initialize(0.0f, 1.0f, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
 }
 
 void RookEnemy::Update() {

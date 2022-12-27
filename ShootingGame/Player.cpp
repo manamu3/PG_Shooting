@@ -124,11 +124,3 @@ bool Player::Hit(Location pos) {
 
 	return false;
 }
-
-bool Player::LifeCheck() {
-	return life <= 0;
-}
-
-int Player::GetScore() {
-	return score;
-}

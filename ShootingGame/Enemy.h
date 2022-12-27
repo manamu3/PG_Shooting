@@ -46,7 +46,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle, float _bulletSpeed, int _bulletDamage);
+	void Initialize(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle, float _bulletSpeed, int _bulletDamage);
 	void Update() override;
 	void Draw() const override;
 	bool Hit(Location) override;
@@ -55,11 +55,12 @@ public:
 	void ChangeMove(MOVE_TYPE &moveType);
 	void ChangeMove(float _moveX, float _moveY);
 	void CreateBullet();
-	int GetImage() { return images[0]; }
+	void SetX(float _x) { x = _x; }
+
+	int GetPoint() { return point; }
 	bool HpCheck() { return hp <= 0; }
 	bool IsDamage() { return isDamage; }
 	bool ScreenOut() { return (moveX < 0 && x <= 40.0f) || (moveX > 0 && x >= 600.0f) || (moveY < 0 && y <= 40.0f); }
-	int GetPoint() { return point; }
 	ENEMY_TYPE GetEnemyType() { return enemyType; }
 };
 
