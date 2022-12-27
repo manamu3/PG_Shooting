@@ -39,7 +39,7 @@ KnightEnemy::KnightEnemy(float _speed, float _radius, int _point, int _hp) {
 
 void KnightEnemy::Update() {
 	int indexY = floorf(y / (480.0f / 4.5f));
-	if (!changeMovedFlag[indexY]) {
+	if (!changeMovedFlag[indexY] || ScreenOut()) {
 		changeMovedFlag[indexY] = true;
 		float newMoveX = moveX;
 		int newMoveType = GetRand(1);

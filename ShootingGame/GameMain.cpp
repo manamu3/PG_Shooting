@@ -158,7 +158,9 @@ void GameMain::DeleteEnemy(int &i) {
 		pawnActive[x] = false;
 	}
 	enemyCount--;
-	*enemy[i] = *enemy[enemyCount];
+	Enemy *temp = enemy[i];
+	enemy[i] = enemy[enemyCount];
+	enemy[enemyCount] = temp;
 	delete enemy[enemyCount];
 	enemy[enemyCount] = nullptr;
 	(i)--;
@@ -177,34 +179,44 @@ void GameMain::HitCheck() {
 	//敵の当たり判定
 	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] == nullptr) continue;
+
 		//プレイヤーと当たった時の処理
 		player.Hit(enemy[i]->GetLocation());
-		for (int j = 0; j < BULLET_MAX; j++) {
+
+		//プレイヤーの弾の当たり判定
+		for (int j = 0; j < player.GetBulletNum(); j++) {
 			if (playerBullets[j] == nullptr) continue;
-			//プレイヤーの弾との当たり判定
-			enemy[i]->Hit(playerBullets[j]->GetLocation());
-			if (enemy[i]->IsDamage()) {
+
+			//プレイヤーの弾と当たった時の処理
+			if (enemy[i]->Hit(playerBullets[j]->GetLocation())) {
+				//ダメージ
 				enemy[i]->Damage(playerBullets[j]->GetDamage());
+				//死亡判定
 				if (enemy[i]->HpCheck()) {
+					//アイテム生成
 					CreateItem(enemy[i]->GetLocation());
+					//敵の削除
 					DeleteEnemy(i);
 				}
-				
-				playerBullets[j]->Disabled();
+				//自弾の削除
+				player.DeleteBullet(j);
 				break;
 			}
 		}
-	}
-	for (int i = 0; i < enemyCount; i++) {
-		if (enemy[i] == nullptr) continue;
 
+		if (i < 0) continue;
+
+		//敵と当たったら
 		player.Hit(enemy[i]->GetLocation());
 		BulletsBase** enemyBullets = enemy[i]->GetBullets();
+
+		//敵弾の当たり判定
 		for (int j = 0; j < enemy[i]->GetBulletNum(); j++) {
 			if (enemyBullets[j] == nullptr) continue;
-			player.Hit(enemyBullets[j]->GetLocation());
-			if (player.IsDamage()) {
-				enemyBullets[j]->Disabled();
+
+			//プレイヤーと当たったら
+			if (player.Hit(enemyBullets[j]->GetLocation())) {
+				enemy[i]->DeleteBullet(j);
 				break;
 			}
 		}

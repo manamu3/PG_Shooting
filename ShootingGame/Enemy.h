@@ -18,7 +18,6 @@ private:
 	int hp;
 	int point;
 	int bulletTime = 0;
-	int bulletCount = 0;
 	int bulletDamage;
 	float bulletSpeed;
 	bool isDamage;
@@ -50,17 +49,17 @@ public:
 	void Initialize(float x, float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _angle, float _bulletSpeed, int _bulletDamage);
 	void Update() override;
 	void Draw() const override;
-	void Hit(Location) override;
+	bool Hit(Location) override;
 	void Damage(int);
 	void Disabled() { isActive = false; }
 	void ChangeMove(MOVE_TYPE &moveType);
 	void ChangeMove(float _moveX, float _moveY);
 	void CreateBullet();
-
+	int GetImage() { return images[0]; }
 	bool HpCheck() { return hp <= 0; }
 	bool IsDamage() { return isDamage; }
+	bool ScreenOut() { return (moveX < 0 && x <= 40.0f) || (moveX > 0 && x >= 600.0f) || (moveY < 0 && y <= 40.0f); }
 	int GetPoint() { return point; }
-	int GetBulletNum() { return bulletCount; }
 	ENEMY_TYPE GetEnemyType() { return enemyType; }
 };
 

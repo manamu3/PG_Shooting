@@ -36,7 +36,9 @@ void RookEnemy::Update() {
 	else {
 		indexY = floorf(y / (480.0f / 9.0f));
 	}
-	if (!changeMovedFlag[indexY]) {
+	if (!changeMovedFlag[indexY] || ScreenOut()) {
+		backMoveFlag = false;
+		sideMoveFlag = false;
 		changeMovedFlag[indexY] = true;
 		int newMoveType = GetRand(3);
 		if (newMoveType > 2 && y - 40.0f < 40) {

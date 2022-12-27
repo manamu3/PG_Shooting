@@ -35,12 +35,15 @@ void GoldEnemy::Update() {
 	else if (sideMoveFlag) {
 		if (fabsf(sidePosX - x) < speed) {
 			indexY = floorf(y / (480.0f / 9.0f));
+			sideMoveFlag = false;
 		}
 	}
 	else {
 		indexY = floorf(y / (480.0f / 9.0f));
 	}
-	if (!changeMovedFlag[indexY]) {
+	if (!changeMovedFlag[indexY] || ScreenOut()) {
+		sideMoveFlag = false;
+		backMoveFlag = false;
 		changeMovedFlag[indexY] = true;
 		int newMoveType = GetRand(5);
 		if (newMoveType > 4 && y - 40.0f < 40) {

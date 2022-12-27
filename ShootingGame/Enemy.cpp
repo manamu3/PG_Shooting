@@ -8,7 +8,6 @@ Enemy::Enemy() {
 		bullets[i] = nullptr;
 	}
 	isDamage = false;
-	bulletCount = 0;
 	bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
 }
 
@@ -40,11 +39,7 @@ void Enemy::Update() {
 		if (bullets[i] != nullptr) {
 			bullets[i]->Update();
 			if (!bullets[i]->IsActive()) {
-				bulletCount--;
-				*bullets[i] = *bullets[bulletCount];
-				delete bullets[bulletCount];
-				bullets[bulletCount] = nullptr;
-				i--;
+				DeleteBullet(i);
 			}
 		}
 	}
@@ -74,10 +69,13 @@ void Enemy::Draw() const {
 	}
 }
 
-void Enemy::Hit(Location pos) {
+bool Enemy::Hit(Location pos) {
 	if (HitSphere(pos)) {
 		isDamage = true;
+		return true;
 	}
+
+	return false;
 }
 
 void Enemy::Damage(int damage) {
