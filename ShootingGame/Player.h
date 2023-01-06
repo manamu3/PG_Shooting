@@ -27,6 +27,7 @@ public:
 	void Move();
 	void Shot();
 	void AddAttackBullet(int attack) { bulletDamagePoint += attack; }
+	void AddScore(int _score) { score += _score; }
 	bool LifeCheck() { return life <= 0; }
 	bool IsDamage() { return isDamage; }
 	int GetScore() { return score; }

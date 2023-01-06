@@ -109,6 +109,8 @@ void Player::Draw() const {
 			bullets[i]->Draw();
 		}
 	}
+
+	DrawFormatString(0, 0, 0xFFFFFF, "Score: %d", score);
 }
 
 bool Player::Hit(Location pos) {

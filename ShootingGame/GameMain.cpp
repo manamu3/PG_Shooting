@@ -97,22 +97,22 @@ void GameMain::CreateEnemy() {
 				}
 			}
 			if (enemyType < 750) {
-				enemy[i] = new LanceEnemy(6, 15, 100, 3);
+				enemy[i] = new LanceEnemy(6, 15, 300, 3);
 			}
 			else if (enemyType < 850) {
-				enemy[i] = new KnightEnemy(4.5f, 15, 100, 3);
+				enemy[i] = new KnightEnemy(4.5f, 15, 500, 3);
 			}
 			else if (enemyType < 900) {
-				enemy[i] = new SilverEnemy(3.0f, 15, 100, 3);
+				enemy[i] = new SilverEnemy(3.0f, 15, 800, 3);
 			}
 			else if (enemyType < 950) {
-				enemy[i] = new GoldEnemy(3.0f, 15, 100, 3);
+				enemy[i] = new GoldEnemy(3.0f, 15, 1000, 3);
 			}
 			else if (enemyType < 975) {
-				enemy[i] = new BishopEnemy(6, 15, 100, 3);
+				enemy[i] = new BishopEnemy(6, 15, 1200, 3);
 			}
 			else {
-				enemy[i] = new RookEnemy(6, 15, 100, 3);
+				enemy[i] = new RookEnemy(6, 15, 1200, 3);
 			}
 			enemyCount++;
 			return;
@@ -195,6 +195,8 @@ void GameMain::HitCheck() {
 				if (enemy[i]->HpCheck()) {
 					//アイテム生成
 					CreateItem(enemy[i]->GetLocation());
+					//スコア加算
+					player.AddScore(enemy[i]->GetPoint());
 					//敵の削除
 					enemy[i]->Disabled();
 					//DeleteEnemy(i);
