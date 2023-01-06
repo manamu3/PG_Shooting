@@ -45,7 +45,7 @@ AbstractScene* GameMain::Update() {
 	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] != nullptr) {
 			enemy[i]->Update();
-			if (!enemy[i]->IsActive()) {
+			if (!enemy[i]->IsActive() && enemy[i]->GetBulletNum() <= 0) {
 				DeleteEnemy(i);
 			}
 		}
@@ -178,7 +178,7 @@ void GameMain::HitCheck() {
 	BulletsBase** playerBullets = (player.GetBullets());
 	//敵の当たり判定
 	for (int i = 0; i < enemyCount; i++) {
-		if (enemy[i] == nullptr) continue;
+		if (enemy[i] == nullptr || !enemy[i]->IsActive()) continue;
 
 		//プレイヤーと当たった時の処理
 		player.Hit(enemy[i]->GetLocation());
@@ -196,7 +196,8 @@ void GameMain::HitCheck() {
 					//アイテム生成
 					CreateItem(enemy[i]->GetLocation());
 					//敵の削除
-					DeleteEnemy(i);
+					enemy[i]->Disabled();
+					//DeleteEnemy(i);
 				}
 				//自弾の削除
 				player.DeleteBullet(j);
