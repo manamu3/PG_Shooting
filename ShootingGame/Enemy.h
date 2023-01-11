@@ -23,6 +23,8 @@ private:
 	bool isDamage;
 	std::vector<float> bulletDirection;
 
+	float goalPos;
+
 	static const int ENEMY_BULLET_INTERVAL = 180;
 
 protected:
@@ -36,10 +38,14 @@ protected:
 		UP_LEFT,
 		UP_RIGHT,
 		DOWN_LEFT,
-		DOWN_RIGHT
+		DOWN_RIGHT,
+		KNIGHT_LEFT,
+		KNIGHT_RIGHT,
 	};
 
-	//const std::vector<MOVE_TYPE> moveDirections;
+	std::vector<MOVE_TYPE> moveDirections;
+
+	MOVE_TYPE currentMoveType;
 
 public:
 	//Enemy(std::vector<MOVE_TYPE> move) : moveDirections{ move } {}
@@ -53,9 +59,9 @@ public:
 	void Damage(int);
 	void Disabled() { isActive = false; }
 	void ChangeMove(MOVE_TYPE &moveType);
-	void ChangeMove(float _moveX, float _moveY);
+	void ChangeMove();
 	void CreateBullet();
-	void SetX(float _x) { x = _x; }
+	void SetEnemyX(float _x) { x = _x; }
 
 	int GetPoint() { return point; }
 	bool HpCheck() { return hp <= 0; }

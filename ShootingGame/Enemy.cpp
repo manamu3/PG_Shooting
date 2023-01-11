@@ -21,6 +21,52 @@ void Enemy::Initialize(float _moveX, float _moveY, float _speed, float _radius, 
 
 	float randX = (640.0f / 9.0f) * GetRand(8) + 20.0f;
 	CharaBase::Init(randX, 0, _moveX, _moveY, _speed, _radius);
+
+	goalPos = y + 80.0f;
+
+	switch (enemyType) {
+		case ENEMY_TYPE::PAWN:
+		case ENEMY_TYPE::LANCE: {
+			moveDirections.push_back(MOVE_TYPE::DOWN);
+			break;
+		}
+		case ENEMY_TYPE::KNIGHT: {
+			moveDirections.push_back(MOVE_TYPE::KNIGHT_LEFT);
+			moveDirections.push_back(MOVE_TYPE::KNIGHT_RIGHT);
+			break;
+		}
+		case ENEMY_TYPE::SILVER: {
+			moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
+			moveDirections.push_back(MOVE_TYPE::DOWN);
+			moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
+			moveDirections.push_back(MOVE_TYPE::UP_LEFT);
+			moveDirections.push_back(MOVE_TYPE::UP_RIGHT);
+			break;
+		}
+		case ENEMY_TYPE::GOLD: {
+			moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
+			moveDirections.push_back(MOVE_TYPE::DOWN);
+			moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
+			moveDirections.push_back(MOVE_TYPE::LEFT);
+			moveDirections.push_back(MOVE_TYPE::RIGHT);
+			moveDirections.push_back(MOVE_TYPE::UP);
+			break;
+		}
+		case ENEMY_TYPE::BISHOP: {
+			moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
+			moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
+			moveDirections.push_back(MOVE_TYPE::UP_LEFT);
+			moveDirections.push_back(MOVE_TYPE::UP_RIGHT);
+			break;
+		}
+		case ENEMY_TYPE::ROOK: {
+			moveDirections.push_back(MOVE_TYPE::UP);
+			moveDirections.push_back(MOVE_TYPE::DOWN);
+			moveDirections.push_back(MOVE_TYPE::LEFT);
+			moveDirections.push_back(MOVE_TYPE::RIGHT);
+			break;
+		}
+	}
 }
 
 void Enemy::Update() {
@@ -29,6 +75,7 @@ void Enemy::Update() {
 		y += moveY * speed;
 		Location nowLocation = { x, y };
 		SetLocation(nowLocation);
+		ChangeMove();
 		if (y > 480) {
 			isActive = false;
 		}
@@ -88,9 +135,27 @@ void Enemy::Damage(int damage) {
 	isDamage = false;
 }
 
-void Enemy::ChangeMove(float _moveX, float _moveY) {
-	moveX = _moveX;
-	moveY = _moveY;
+void Enemy::ChangeMove() {
+	MOVE_TYPE moveDirection = moveDirections[GetRand(moveDirections.size() - 1)];
+	if (ScreenOut()) {
+		ChangeMove(moveDirection);
+		return;
+	}
+	if (currentMoveType == MOVE_TYPE::UP || currentMoveType == MOVE_TYPE::UP_LEFT || currentMoveType == MOVE_TYPE::UP_RIGHT) {
+		if (goalPos > y) {
+			ChangeMove(moveDirection);
+		}
+	}
+	else if (currentMoveType == MOVE_TYPE::LEFT || currentMoveType == MOVE_TYPE::RIGHT) {
+		if (fabsf(goalPos - x) < speed) {
+			ChangeMove(moveDirection);
+		}
+	}
+	else {
+		if (goalPos < y) {
+			ChangeMove(moveDirection);
+		}
+	}
 }
 
 void Enemy::ChangeMove(MOVE_TYPE &moveType) {
@@ -98,6 +163,7 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 		case MOVE_TYPE::UP: {
 			moveX = 0.0f;
 			moveY = -1.0f;
+			goalPos = y - 80.0f;
 			break;
 		}
 		case MOVE_TYPE::UP_LEFT: {
@@ -109,6 +175,7 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 				moveType = MOVE_TYPE::UP_RIGHT;
 			}
 			moveY = sinf(225.0f * (DX_PI_F / 180.0f));
+			goalPos = y - 80.0f;
 			break;
 		}
 		case MOVE_TYPE::UP_RIGHT: {
@@ -120,11 +187,13 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 				moveType = MOVE_TYPE::UP_LEFT;
 			}
 			moveY = sinf(225.0f * (DX_PI_F / 180.0f));
+			goalPos = y - 80.0f;
 			break;
 		}
 		case MOVE_TYPE::DOWN: {
 			moveX = 0.0f;
 			moveY = 1.0f;
+			goalPos = y + 80.0f;
 			break;
 		}
 		case MOVE_TYPE::DOWN_LEFT: {
@@ -136,6 +205,7 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 				moveType = MOVE_TYPE::DOWN_RIGHT;
 			}
 			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
+			goalPos = y + 80.0f;
 			break;
 		}
 		case MOVE_TYPE::DOWN_RIGHT: {
@@ -147,6 +217,7 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 				moveType = MOVE_TYPE::DOWN_LEFT;
 			}
 			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
+			goalPos = y + 80.0f;
 			break;
 		}
 		case MOVE_TYPE::LEFT: {
@@ -158,6 +229,7 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 				moveType = MOVE_TYPE::RIGHT;
 			}
 			moveY = 0.0f;
+			goalPos = x - 80.0f;
 			break;
 		}
 		case MOVE_TYPE::RIGHT: {
@@ -169,9 +241,36 @@ void Enemy::ChangeMove(MOVE_TYPE &moveType) {
 				moveType = MOVE_TYPE::LEFT;
 			}
 			moveY = 0.0f;
+			goalPos = x + 80.0f;
+			break;
+		}
+		case MOVE_TYPE::KNIGHT_LEFT: {
+			if (x - 80.0f > 40.0f) {
+				moveX = cosf(120.0f * (DX_PI_F / 180.0f));
+			}
+			else {
+				moveX = cosf(60.0f * (DX_PI_F / 180.0f));
+				moveType = MOVE_TYPE::KNIGHT_RIGHT;
+			}
+			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
+			goalPos = y + 160.0f;
+			break;
+		}
+		case MOVE_TYPE::KNIGHT_RIGHT: {
+			if (x + 40.0f < 600.0f) {
+				moveX = cosf(60.0f * (DX_PI_F / 180.0f));
+			}
+			else {
+				moveX = cosf(120.0f * (DX_PI_F / 180.0f));
+				moveType = MOVE_TYPE::KNIGHT_LEFT;
+			}
+			moveY = sinf(135.0f * (DX_PI_F / 180.0f));
+			goalPos = y + 160.0f;
 			break;
 		}
 	}
+
+	currentMoveType = moveType;
 }
 
 Enemy::~Enemy() {
