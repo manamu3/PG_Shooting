@@ -47,6 +47,8 @@ protected:
 
 	MOVE_TYPE currentMoveType;
 
+	int enemyMode;
+
 public:
 	//Enemy(std::vector<MOVE_TYPE> move) : moveDirections{ move } {}
 	Enemy();
@@ -62,6 +64,7 @@ public:
 	void ChangeMove();
 	void CreateBullet();
 	void SetEnemyX(float _x) { x = _x; }
+	virtual void ChangeMode() {};
 
 	int GetPoint() { return point; }
 	bool HpCheck() { return hp <= 0; }

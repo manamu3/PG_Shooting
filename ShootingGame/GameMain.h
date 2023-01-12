@@ -20,6 +20,8 @@ private:
 	int enemyCount;
 	int itemCount;
 
+	int enemyThreat;
+
 	static const int ENEMY_MAX = 60;
 	static const int ITEM_MAX = 60;
 	

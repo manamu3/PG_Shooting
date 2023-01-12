@@ -32,6 +32,8 @@ GameMain::GameMain() {
 
 	enemyCount = 0;
 	itemCount = 0;
+
+	enemyThreat = 0;
 }
 
 AbstractScene* GameMain::Update() {
@@ -82,14 +84,16 @@ void GameMain::Draw() const {
 
 void GameMain::CreateEnemy() {
 	int enemyType = GetRand(999);
+	if (enemyThreat > 15) return;
 	for (int i = enemyCount; i < ENEMY_MAX; i++) {
 		if (enemy[i] == nullptr) {
 			if (enemyType < 650) {
 				int x = GetRand(8);
 				if (GetPawnX(x)) {
-					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 20.0f, 3, 15, 100, 3);
+					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 20.0f, 2, 15, 100, 3);
 					pawnActive[x] = true;
 					enemyCount++;
+					enemyThreat += 1;
 					return;
 				}
 				else {
@@ -97,22 +101,28 @@ void GameMain::CreateEnemy() {
 				}
 			}
 			if (enemyType < 750) {
-				enemy[i] = new LanceEnemy(6, 15, 300, 3);
+				enemy[i] = new LanceEnemy(4, 15, 300, 6);
+				enemyThreat += 2;
 			}
 			else if (enemyType < 850) {
-				enemy[i] = new KnightEnemy(4.5f, 15, 500, 3);
+				enemy[i] = new KnightEnemy(3, 15, 500, 10);
+				enemyThreat += 3;
 			}
 			else if (enemyType < 900) {
-				enemy[i] = new SilverEnemy(3.0f, 15, 800, 3);
+				enemy[i] = new SilverEnemy(2, 15, 800, 15);
+				enemyThreat += 4;
 			}
 			else if (enemyType < 950) {
-				enemy[i] = new GoldEnemy(3.0f, 15, 1000, 3);
+				enemy[i] = new GoldEnemy(2, 15, 1000, 15);
+				enemyThreat += 4;
 			}
 			else if (enemyType < 975) {
-				enemy[i] = new BishopEnemy(6, 15, 1200, 3);
+				enemy[i] = new BishopEnemy(4, 15, 1200, 20);
+				enemyThreat += 5;
 			}
 			else {
-				enemy[i] = new RookEnemy(6, 15, 1200, 3);
+				enemy[i] = new RookEnemy(4, 15, 1200, 20);
+				enemyThreat += 5;
 			}
 			enemyCount++;
 			return;
@@ -156,6 +166,29 @@ void GameMain::DeleteEnemy(int &i) {
 	if (enemy[i]->GetEnemyType() == ENEMY_TYPE::PAWN) {
 		int x = (enemy[i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
 		pawnActive[x] = false;
+	}
+	switch (enemy[i]->GetEnemyType()) {
+	case ENEMY_TYPE::PAWN:
+		enemyThreat -= 1;
+		break;
+	case ENEMY_TYPE::LANCE:
+		enemyThreat -= 2;
+		break;
+	case ENEMY_TYPE::KNIGHT:
+		enemyThreat -= 3;
+		break;
+	case ENEMY_TYPE::SILVER:
+		enemyThreat -= 4;
+		break;
+	case ENEMY_TYPE::GOLD:
+		enemyThreat -= 4;
+		break;
+	case ENEMY_TYPE::BISHOP:
+		enemyThreat -= 5;
+		break;
+	case ENEMY_TYPE::ROOK:
+		enemyThreat -= 5;
+		break;
 	}
 	enemyCount--;
 	Enemy *temp = enemy[i];

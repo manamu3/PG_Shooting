@@ -9,6 +9,7 @@ Enemy::Enemy() {
 	}
 	isDamage = false;
 	bulletTime = GetRand(ENEMY_BULLET_INTERVAL);
+	enemyMode = 0;
 }
 
 void Enemy::Initialize(float _moveX, float _moveY, float _speed, float _radius, int _point, int _hp, std::vector<float> _bulletAngle, float _bulletSpeed, int _bulletDamage) {
@@ -23,50 +24,6 @@ void Enemy::Initialize(float _moveX, float _moveY, float _speed, float _radius, 
 	CharaBase::Init(randX, 0, _moveX, _moveY, _speed, _radius);
 
 	goalPos = y + 80.0f;
-
-	switch (enemyType) {
-		case ENEMY_TYPE::PAWN:
-		case ENEMY_TYPE::LANCE: {
-			moveDirections.push_back(MOVE_TYPE::DOWN);
-			break;
-		}
-		case ENEMY_TYPE::KNIGHT: {
-			moveDirections.push_back(MOVE_TYPE::KNIGHT_LEFT);
-			moveDirections.push_back(MOVE_TYPE::KNIGHT_RIGHT);
-			break;
-		}
-		case ENEMY_TYPE::SILVER: {
-			moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
-			moveDirections.push_back(MOVE_TYPE::DOWN);
-			moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
-			moveDirections.push_back(MOVE_TYPE::UP_LEFT);
-			moveDirections.push_back(MOVE_TYPE::UP_RIGHT);
-			break;
-		}
-		case ENEMY_TYPE::GOLD: {
-			moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
-			moveDirections.push_back(MOVE_TYPE::DOWN);
-			moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
-			moveDirections.push_back(MOVE_TYPE::LEFT);
-			moveDirections.push_back(MOVE_TYPE::RIGHT);
-			moveDirections.push_back(MOVE_TYPE::UP);
-			break;
-		}
-		case ENEMY_TYPE::BISHOP: {
-			moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
-			moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
-			moveDirections.push_back(MOVE_TYPE::UP_LEFT);
-			moveDirections.push_back(MOVE_TYPE::UP_RIGHT);
-			break;
-		}
-		case ENEMY_TYPE::ROOK: {
-			moveDirections.push_back(MOVE_TYPE::UP);
-			moveDirections.push_back(MOVE_TYPE::DOWN);
-			moveDirections.push_back(MOVE_TYPE::LEFT);
-			moveDirections.push_back(MOVE_TYPE::RIGHT);
-			break;
-		}
-	}
 }
 
 void Enemy::Update() {
@@ -78,6 +35,9 @@ void Enemy::Update() {
 		ChangeMove();
 		if (y > 480) {
 			isActive = false;
+		}
+		if (y > 360) {
+			ChangeMode();
 		}
 		if (--bulletTime <= 0) {
 			CreateBullet();
@@ -109,7 +69,7 @@ void Enemy::CreateBullet() {
 
 void Enemy::Draw() const {
 	if (isActive) {
-		DrawRotaGraphF(x, y, 1.0, 0.0, images[0], TRUE);
+		DrawRotaGraphF(x, y, 1.0, 0.0, images[enemyMode], TRUE);
 	}
 	for (int i = 0; i < bulletCount; i++) {
 		if (bullets[i] != nullptr) {

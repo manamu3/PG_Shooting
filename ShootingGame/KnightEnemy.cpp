@@ -7,7 +7,23 @@ KnightEnemy::KnightEnemy(float _speed, float _radius, int _point, int _hp) {
 
 	std::vector<float> bulletAngle = { 60, 120 };
 
-	Initialize(0.0f, 0.0f, _speed, _radius, _point, _hp, bulletAngle, 10.0f, 3);
+	moveDirections.push_back(MOVE_TYPE::KNIGHT_LEFT);
+	moveDirections.push_back(MOVE_TYPE::KNIGHT_RIGHT);
+
+	Initialize(0.0f, 0.0f, _speed, _radius, _point, _hp, bulletAngle, 6.0f, 3);
 	MOVE_TYPE moveDirection = moveDirections[GetRand(1)];
 	ChangeMove(moveDirection);
+}
+
+void KnightEnemy::ChangeMode() {
+	if (enemyMode != 1) {
+		enemyMode = 1;
+		moveDirections.clear();
+		moveDirections.push_back(MOVE_TYPE::DOWN_LEFT);
+		moveDirections.push_back(MOVE_TYPE::DOWN);
+		moveDirections.push_back(MOVE_TYPE::DOWN_RIGHT);
+		moveDirections.push_back(MOVE_TYPE::LEFT);
+		moveDirections.push_back(MOVE_TYPE::RIGHT);
+		moveDirections.push_back(MOVE_TYPE::UP);
+	}
 }
