@@ -67,6 +67,7 @@ public:
 	virtual void ChangeMode() {};
 
 	int GetPoint() { return point; }
+	int GetEnemyMode() { return enemyMode; }
 	bool HpCheck() { return hp <= 0; }
 	bool IsDamage() { return isDamage; }
 	bool ScreenOut() { return (moveX < 0 && x <= 40.0f) || (moveX > 0 && x >= 600.0f) || (moveY < 0 && y <= 40.0f); }

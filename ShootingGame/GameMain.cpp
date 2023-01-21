@@ -46,7 +46,12 @@ AbstractScene* GameMain::Update() {
 
 	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] != nullptr) {
+			bool changeMode = enemy[i]->GetEnemyMode() == 0;
 			enemy[i]->Update();
+			if (enemy[i]->GetEnemyType() == ENEMY_TYPE::PAWN && enemy[i]->GetEnemyMode() == 1 && changeMode) {
+				int x = (enemy[i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
+				pawnActive[x] = false;
+			}
 			if (!enemy[i]->IsActive() && enemy[i]->GetBulletNum() <= 0) {
 				DeleteEnemy(i);
 			}
@@ -261,11 +266,7 @@ void GameMain::HitCheck() {
 		if (item[i] == nullptr) continue;
 
 		if (item[i]->Hit(player.GetLocation())) {
-			switch (item[i]->GetType()) {
-			case ITEM_TYPE::POWER_UP:
-				player.AddAttackBullet(1);
-				break;
-			}
+			player.HitItem(item[i]->GetType());
 			DeleteItem(i);
 		}
 	}

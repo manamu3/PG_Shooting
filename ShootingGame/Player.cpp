@@ -11,6 +11,7 @@ Player::Player() {
 	for (int i = 0; i < BULLET_MAX; i++) {
 		bullets[i] = nullptr;
 	}
+	itemCnt[ITEM_TYPE::POWER_UP] = 0;
 	bulletTime = BULLET_INTERVAL;
 	bulletDamagePoint = 3;
 	isDamage = false;
@@ -125,4 +126,15 @@ bool Player::Hit(Location pos) {
 	}
 
 	return false;
+}
+
+void Player::HitItem(ITEM_TYPE item) {
+	if (++itemCnt[item] % 5 == 0) {
+		switch (item) {
+		case ITEM_TYPE::POWER_UP:
+			bulletDamagePoint++;
+			break;
+		}
+	}
+
 }
