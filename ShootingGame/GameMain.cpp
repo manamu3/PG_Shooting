@@ -34,6 +34,8 @@ GameMain::GameMain() {
 	itemCount = 0;
 
 	enemyThreat = 0;
+
+	time = 0;
 }
 
 AbstractScene* GameMain::Update() {
@@ -69,6 +71,8 @@ AbstractScene* GameMain::Update() {
 
 	HitCheck();
 
+	time++;
+
 	return this;
 }
 
@@ -88,7 +92,19 @@ void GameMain::Draw() const {
 }
 
 void GameMain::CreateEnemy() {
-	int enemyType = GetRand(999);
+	int enemyType;// = GetRand(999);
+	if (time < 1800) { //30•bˆÈ‰º
+		enemyType = GetRand(749);
+	}
+	else if (time < 3600) { //60•bˆÈ‰º
+		enemyType = GetRand(849);
+	}
+	else if (time < 5400) { //90•bˆÈ‰º
+		enemyType = GetRand(949);
+	}
+	else {
+		enemyType = GetRand(999);
+	}
 	if (enemyThreat > 15) return;
 	for (int i = enemyCount; i < ENEMY_MAX; i++) {
 		if (enemy[i] == nullptr) {
