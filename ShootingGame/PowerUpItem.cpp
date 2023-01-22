@@ -7,6 +7,7 @@ PowerUpItem::PowerUpItem(float _x, float _y) {
 	type = ITEM_TYPE::POWER_UP;
 	speed = 3;
 	isActive = true;
+	image = LoadGraph("images/item.png");
 	SetRadius(20);
 }
 
@@ -18,5 +19,5 @@ void PowerUpItem::Update() {
 }
 
 void PowerUpItem::Draw() const {
-	DrawCircle(x, y, 10, 0x0000FF, TRUE);
+	DrawRotaGraph(x, y, 0.8, 0.0, image, TRUE);
 }
