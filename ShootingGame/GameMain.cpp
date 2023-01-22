@@ -12,6 +12,8 @@
 #include "BulletsBase.h"
 #include "PowerUpItem.h"
 
+#include "Title.h"
+
 GameMain::GameMain() {
 	player.Init(320, 420, 0, 0, 5, 30);
 
@@ -81,6 +83,10 @@ AbstractScene* GameMain::Update() {
 	}
 
 	HitCheck();
+
+	if (player.LifeCheck()) {
+		return new Title();
+	}
 
 	time++;
 
