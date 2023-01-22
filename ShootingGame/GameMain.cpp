@@ -28,6 +28,10 @@ GameMain::GameMain() {
 		item[i] = nullptr;
 	}
 
+	for (int i = 0; i < 8; i++) {
+		lineY[i] = i * 71 - 88;
+	}
+
 	enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 
 	enemyCount = 0;
@@ -51,7 +55,7 @@ AbstractScene* GameMain::Update() {
 			bool changeMode = enemy[i]->GetEnemyMode() == 0;
 			enemy[i]->Update();
 			if (enemy[i]->GetEnemyType() == ENEMY_TYPE::PAWN && enemy[i]->GetEnemyMode() == 1 && changeMode) {
-				int x = (enemy[i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
+				int x = (enemy[i]->GetLocation().x - 35.0f) / (640.0f / 9.0f);
 				pawnActive[x] = false;
 			}
 			if (!enemy[i]->IsActive() && enemy[i]->GetBulletNum() <= 0) {
@@ -69,6 +73,13 @@ AbstractScene* GameMain::Update() {
 		}
 	}
 
+	for (int i = 0; i < 8; i++) {
+		if (++lineY[i] > 480) {
+
+			lineY[i] = -88;
+		}
+	}
+
 	HitCheck();
 
 	time++;
@@ -77,6 +88,13 @@ AbstractScene* GameMain::Update() {
 }
 
 void GameMain::Draw() const {
+	DrawBox(0, 0, 640, 480, 0xFFC000, TRUE);
+	for (int i = 0; i < 9; i++) {
+		DrawLine(i * 71, 0, i * 71, 480, 0x000000);
+	}
+	for (int i = 0; i < 8; i++) {
+		DrawLine(0, lineY[i], 640, lineY[i], 0x000000);
+	}
 	player.Draw();
 	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] != nullptr) {
@@ -111,7 +129,7 @@ void GameMain::CreateEnemy() {
 			if (enemyType < 650) {
 				int x = GetRand(8);
 				if (GetPawnX(x)) {
-					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 20.0f, 2, 15, 100, 3);
+					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 35.0f, 2, 15, 100, 3);
 					pawnActive[x] = true;
 					enemyCount++;
 					enemyThreat += 1;
@@ -185,7 +203,7 @@ void GameMain::CreateItem(Location pos) {
 
 void GameMain::DeleteEnemy(int &i) {
 	if (enemy[i]->GetEnemyType() == ENEMY_TYPE::PAWN) {
-		int x = (enemy[i]->GetLocation().x - 20.0f) / (640.0f / 9.0f);
+		int x = (enemy[i]->GetLocation().x - 35.0f) / (640.0f / 9.0f);
 		pawnActive[x] = false;
 	}
 	switch (enemy[i]->GetEnemyType()) {

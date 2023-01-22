@@ -20,7 +20,7 @@ void Enemy::Initialize(float _moveX, float _moveY, float _speed, float _radius, 
 	bulletDamage = _bulletDamage;
 	ImageManager::GetEnemyImage(static_cast<int>(enemyType), images);
 
-	float randX = (640.0f / 9.0f) * GetRand(8) + 20.0f;
+	float randX = (640.0f / 9.0f) * GetRand(8) + 35.0f;
 	CharaBase::Init(randX, 0, _moveX, _moveY, _speed, _radius);
 
 	goalPos = y + 80.0f;
@@ -58,7 +58,7 @@ void Enemy::CreateBullet() {
 	int count = 0;
 	for (int i = bulletCount; i < BULLET_MAX; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0xFFFF00);
+			bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0x000000);
 			bulletCount++;
 			if (++count >= bulletDirection.size()) {
 				break;
