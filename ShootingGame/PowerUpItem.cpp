@@ -20,4 +20,6 @@ void PowerUpItem::Update() {
 
 void PowerUpItem::Draw() const {
 	DrawRotaGraph(x, y, 0.8, 0.0, image, TRUE);
+	SetFontSize(25);
+	DrawString(x - 13, y - 10, "—Í", 0x0000FF);
 }
