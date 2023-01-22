@@ -112,6 +112,7 @@ void Player::Draw() const {
 	}
 
 	DrawFormatString(0, 0, 0xFFFFFF, "Score: %d", score);
+	DrawFormatString(0, 30, 0xFFFFFF, "Life : %d", life);
 }
 
 bool Player::Hit(Location pos) {
