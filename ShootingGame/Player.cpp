@@ -2,8 +2,9 @@
 #include "PadInput.h"
 #include "PlayerBullet.h"
 #include "ImageManager.h"
+#include "Enemy.h"
 
-Player::Player() {
+Player::Player(Enemy** _enemy, int* _enemyMax) {
 	if ((images[0] = LoadGraph("images/player.png")) == -1) {
 		throw "プレイヤー画像の読み込みに失敗しました。";
 	}
@@ -12,15 +13,23 @@ Player::Player() {
 		bullets[i] = nullptr;
 	}
 	itemCnt[ITEM_TYPE::POWER_UP] = 0;
+
+	enemy = _enemy;
+	enemyMax = _enemyMax;
+
 	bulletTime = BULLET_INTERVAL;
 	bulletDamagePoint = 3;
 	isDamage = false;
 	isBlink = false;
+	isTripleBullet = false;
+	isHomingBullet = false;
 	blink = 0;
 	blinkType = -15;
 	blinkCnt = 0;
 	life = 3;
 	score = 0;
+
+	Init(320, 420, 0, 0, 5, 30);
 }
 
 void Player::Update() {
@@ -56,20 +65,20 @@ void Player::Update() {
 void Player::Move() {
 	int inputLX = PAD_INPUT::GetPadThumbLX();
 	int inputLY = PAD_INPUT::GetPadThumbLY();
-	if (inputLX < -DEVIATION) {
+	if (inputLX < -DEVIATION || PAD_INPUT::GetNowKey(XINPUT_BUTTON_DPAD_LEFT)) {
 		moveX = -1;
 	}
-	else if (inputLX > DEVIATION) {
+	else if (inputLX > DEVIATION || PAD_INPUT::GetNowKey(XINPUT_BUTTON_DPAD_RIGHT)) {
 		moveX = 1;
 	}
 	else {
 		moveX = 0;
 	}
 
-	if (inputLY < -DEVIATION) {
+	if (inputLY < -DEVIATION || PAD_INPUT::GetNowKey(XINPUT_BUTTON_DPAD_UP)) {
 		moveY = -1;
 	}
-	else if (inputLY > DEVIATION) {
+	else if (inputLY > DEVIATION || PAD_INPUT::GetNowKey(XINPUT_BUTTON_DPAD_DOWN)) {
 		moveY = 1;
 	}
 	else {
@@ -92,9 +101,25 @@ void Player::Move() {
 void Player::Shot() {
 	for (int i = bulletCount; i < BULLET_MAX; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new PlayerBullet(x, y, 5, bulletDamagePoint, 0xFFFFFF);
+			bullets[i] = new PlayerBullet(x, y, 5, bulletDamagePoint, 0xFFFFFF, enemy, *enemyMax, isHomingBullet);
 			bulletCount++;
 			break;
+		}
+	}
+	if (isTripleBullet) {
+		int bulletNum = 0;
+		for (int i = bulletCount; i < BULLET_MAX; i++) {
+			if (bullets[i] == nullptr) {
+				bulletCount++;
+				if (bulletNum == 0) {
+					bullets[i] = new PlayerBullet(x, y, 0.3f, -0.7f, 5, bulletDamagePoint, 0xFFFFFF);
+				}
+				else {
+					bullets[i] = new PlayerBullet(x, y, -0.3f, -0.7f, 5, bulletDamagePoint, 0xFFFFFF);
+					break;
+				}
+				bulletNum++;
+			}
 		}
 	}
 }
@@ -133,7 +158,12 @@ void Player::HitItem(ITEM_TYPE item) {
 	if (++itemCnt[item] % 5 == 0) {
 		switch (item) {
 		case ITEM_TYPE::POWER_UP:
-			bulletDamagePoint++;
+			if (++bulletDamagePoint >= 30) {
+				isTripleBullet = true;
+			}
+			else if (bulletDamagePoint >= 10) {
+				isHomingBullet = true;
+			}
 			break;
 		}
 	}

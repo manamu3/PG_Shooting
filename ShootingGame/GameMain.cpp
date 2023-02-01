@@ -15,7 +15,6 @@
 #include "Title.h"
 
 GameMain::GameMain() {
-	player.Init(320, 420, 0, 0, 5, 30);
 
 	enemy = new Enemy *[ENEMY_MAX];
 	for (int i = 0; i < ENEMY_MAX; i++) {
@@ -24,6 +23,7 @@ GameMain::GameMain() {
 	for (int i = 0; i < 9; i++) {
 		pawnActive[i] = false;
 	}
+	player = new Player(enemy, &enemyCount);
 
 	item = new ItemBase *[ITEM_MAX];
 	for (int i = 0; i < ITEM_MAX; i++) {
@@ -45,7 +45,7 @@ GameMain::GameMain() {
 }
 
 AbstractScene* GameMain::Update() {
-	player.Update();
+	player->Update();
 
 	if (--enemyCreateTime <= 0) {
 		CreateEnemy();
@@ -84,7 +84,7 @@ AbstractScene* GameMain::Update() {
 
 	HitCheck();
 
-	if (player.LifeCheck()) {
+	if (player->LifeCheck()) {
 		return new Title();
 	}
 
@@ -101,7 +101,7 @@ void GameMain::Draw() const {
 	for (int i = 0; i < 8; i++) {
 		DrawLine(0, lineY[i], 640, lineY[i], 0x000000);
 	}
-	player.Draw();
+	player->Draw();
 	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] != nullptr) {
 			enemy[i]->Draw();
@@ -118,12 +118,15 @@ void GameMain::Draw() const {
 void GameMain::CreateEnemy() {
 	int enemyType;// = GetRand(999);
 	if (time < 1800) { //30•bˆÈ‰º
-		enemyType = GetRand(749);
+		enemyType = GetRand(649);
 	}
 	else if (time < 3600) { //60•bˆÈ‰º
-		enemyType = GetRand(849);
+		enemyType = GetRand(749);
 	}
 	else if (time < 5400) { //90•bˆÈ‰º
+		enemyType = GetRand(849);
+	}
+	else if (time < 9000) { //120•bˆÈ‰º
 		enemyType = GetRand(949);
 	}
 	else {
@@ -138,7 +141,7 @@ void GameMain::CreateEnemy() {
 					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 35.0f, 2, 15, 100, 3);
 					pawnActive[x] = true;
 					enemyCount++;
-					enemyThreat += 1;
+					enemyThreat += 2;
 					return;
 				}
 				else {
@@ -214,7 +217,7 @@ void GameMain::DeleteEnemy(int &i) {
 	}
 	switch (enemy[i]->GetEnemyType()) {
 	case ENEMY_TYPE::PAWN:
-		enemyThreat -= 1;
+		enemyThreat -= 2;
 		break;
 	case ENEMY_TYPE::LANCE:
 		enemyThreat -= 2;
@@ -253,16 +256,16 @@ void GameMain::DeleteItem(int &i) {
 }
 
 void GameMain::HitCheck() {
-	BulletsBase** playerBullets = (player.GetBullets());
+	BulletsBase** playerBullets = (player->GetBullets());
 	//“G‚Ì“–‚½‚è”»’è
 	for (int i = 0; i < enemyCount; i++) {
 		if (enemy[i] == nullptr || !enemy[i]->IsActive()) continue;
 
 		//ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½‚Ìˆ—
-		player.Hit(enemy[i]->GetLocation());
+		player->Hit(enemy[i]->GetLocation());
 
 		//ƒvƒŒƒCƒ„[‚Ì’e‚Ì“–‚½‚è”»’è
-		for (int j = 0; j < player.GetBulletNum(); j++) {
+		for (int j = 0; j < player->GetBulletNum(); j++) {
 			if (playerBullets[j] == nullptr) continue;
 
 			//ƒvƒŒƒCƒ„[‚Ì’e‚Æ“–‚½‚Á‚½‚Ìˆ—
@@ -274,13 +277,13 @@ void GameMain::HitCheck() {
 					//ƒAƒCƒeƒ€¶¬
 					CreateItem(enemy[i]->GetLocation());
 					//ƒXƒRƒA‰ÁZ
-					player.AddScore(enemy[i]->GetPoint());
+					player->AddScore(enemy[i]->GetPoint());
 					//“G‚Ìíœ
 					enemy[i]->Disabled();
 					//DeleteEnemy(i);
 				}
 				//©’e‚Ìíœ
-				player.DeleteBullet(j);
+				player->DeleteBullet(j);
 				break;
 			}
 		}
@@ -288,7 +291,7 @@ void GameMain::HitCheck() {
 		if (i < 0) continue;
 
 		//“G‚Æ“–‚½‚Á‚½‚ç
-		player.Hit(enemy[i]->GetLocation());
+		player->Hit(enemy[i]->GetLocation());
 		BulletsBase** enemyBullets = enemy[i]->GetBullets();
 
 		//“G’e‚Ì“–‚½‚è”»’è
@@ -296,7 +299,7 @@ void GameMain::HitCheck() {
 			if (enemyBullets[j] == nullptr) continue;
 
 			//ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½‚ç
-			if (player.Hit(enemyBullets[j]->GetLocation())) {
+			if (player->Hit(enemyBullets[j]->GetLocation())) {
 				enemy[i]->DeleteBullet(j);
 				break;
 			}
@@ -305,9 +308,16 @@ void GameMain::HitCheck() {
 	for (int i = 0; i < itemCount; i++) {
 		if (item[i] == nullptr) continue;
 
-		if (item[i]->Hit(player.GetLocation())) {
-			player.HitItem(item[i]->GetType());
+		if (item[i]->Hit(player->GetLocation())) {
+			player->HitItem(item[i]->GetType());
 			DeleteItem(i);
 		}
 	}
+}
+
+GameMain::~GameMain() {
+	delete player;
+
+	delete[] enemy;
+	delete[] item;
 }

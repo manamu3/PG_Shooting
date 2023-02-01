@@ -21,10 +21,16 @@ private:
 	int blinkCnt;
 	int bulletDamagePoint;
 
+	bool isTripleBullet;
+	bool isHomingBullet;
+
+	Enemy** enemy;
+	int* enemyMax;
+
 	std::map<ITEM_TYPE, int> itemCnt;
 
 public:
-	Player();
+	Player(Enemy** _enemy, int* _enemyMax);
 	void Update() override;
 	void Draw() const override;
 	bool Hit(Location) override;

@@ -58,7 +58,7 @@ void Enemy::CreateBullet() {
 	int count = 0;
 	for (int i = bulletCount; i < BULLET_MAX; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0x000000);
+			bullets[i] = new EnemyBullet(x, y, bulletDirection[count], bulletSpeed, bulletDamage, 0x008000);
 			bulletCount++;
 			if (++count >= bulletDirection.size()) {
 				break;

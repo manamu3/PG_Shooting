@@ -5,7 +5,7 @@ PowerUpItem::PowerUpItem(float _x, float _y) {
 	x = _x;
 	y = _y;
 	type = ITEM_TYPE::POWER_UP;
-	speed = 3;
+	speed = 1.5f;
 	isActive = true;
 	image = LoadGraph("images/item.png");
 	SetRadius(20);

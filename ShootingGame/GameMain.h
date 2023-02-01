@@ -10,7 +10,7 @@
 class GameMain : public AbstractScene
 {
 private:
-	Player player;
+	Player* player;
 	Enemy** enemy = nullptr;
 	ItemBase** item = nullptr;
 	int enemyCreateTime;
@@ -31,7 +31,7 @@ private:
 	
 public:
 	GameMain();
-	virtual ~GameMain() {};
+	virtual ~GameMain();
 	virtual AbstractScene* Update() override;
 	virtual void Draw() const override;
 	void HitCheck();
