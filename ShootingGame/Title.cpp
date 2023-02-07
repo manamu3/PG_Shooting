@@ -26,7 +26,7 @@ AbstractScene* Title::Update() {
 		cursorMove = false;
 	}
 
-	if (PAD_INPUT::GetKeyFlg(XINPUT_BUTTON_A) == TRUE) {
+	if (PAD_INPUT::GetKeyFlg(XINPUT_BUTTON_B) == TRUE) {
 		if (cursorY == 0) {
 			return new GameMain();
 		}
@@ -45,7 +45,7 @@ void Title::Draw() const {
 	DrawString(217, 50, "Title", 0xFFFFFF);
 
 	SetFontSize(32);
-	DrawString(287, 280, "Game", 0xFFFFFF);
+	DrawString(287, 280, "Start", 0xFFFFFF);
 	//DrawString(287, 320, "Help", 0xFFFFFF);
 	DrawString(287, 360, "End", 0xFFFFFF);
 

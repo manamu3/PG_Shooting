@@ -13,6 +13,7 @@
 #include "PowerUpItem.h"
 
 #include "Title.h"
+#include "GameOver.h"
 
 GameMain::GameMain() {
 
@@ -84,11 +85,9 @@ AbstractScene* GameMain::Update() {
 
 	HitCheck();
 
-	if (player->LifeCheck()) {
-		return new Title();
+	if (player->LifeCheck() || ++time > 10800) {
+		return new GameOver(player->GetScore());
 	}
-
-	time++;
 
 	return this;
 }
@@ -259,7 +258,7 @@ void GameMain::HitCheck() {
 	BulletsBase** playerBullets = (player->GetBullets());
 	//“G‚Ì“–‚½‚è”»’è
 	for (int i = 0; i < enemyCount; i++) {
-		if (enemy[i] == nullptr || !enemy[i]->IsActive()) continue;
+		if (enemy[i] == nullptr) continue;
 
 		//ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½Žž‚Ìˆ—
 		player->Hit(enemy[i]->GetLocation());
@@ -291,7 +290,9 @@ void GameMain::HitCheck() {
 		if (i < 0) continue;
 
 		//“G‚Æ“–‚½‚Á‚½‚ç
-		player->Hit(enemy[i]->GetLocation());
+		if (enemy[i]->IsActive()) {
+			player->Hit(enemy[i]->GetLocation());
+		}
 		BulletsBase** enemyBullets = enemy[i]->GetBullets();
 
 		//“G’e‚Ì“–‚½‚è”»’è
