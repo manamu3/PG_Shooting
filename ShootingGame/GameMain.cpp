@@ -265,6 +265,7 @@ void GameMain::HitCheck() {
 
 		//プレイヤーの弾の当たり判定
 		for (int j = 0; j < player->GetBulletNum(); j++) {
+			if (!enemy[i]->IsActive()) break;
 			if (playerBullets[j] == nullptr) continue;
 
 			//プレイヤーの弾と当たった時の処理
