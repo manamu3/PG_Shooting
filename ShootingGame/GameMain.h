@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "ItemBase.h"
+#include "BOSS.h"
 
 #define ENEMY_CREATE_MAX_INTERVAL 60
 
@@ -13,9 +14,13 @@ private:
 	Player* player;
 	Enemy** enemy = nullptr;
 	ItemBase** item = nullptr;
+	BOSS* boss = nullptr;
+
 	int enemyCreateTime;
 
 	bool pawnActive[9];
+
+	bool isBoss;
 
 	int enemyCount;
 	int itemCount;

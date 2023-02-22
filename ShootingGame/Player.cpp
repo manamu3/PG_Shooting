@@ -28,8 +28,9 @@ Player::Player(Enemy** _enemy, int* _enemyMax) {
 	blinkCnt = 0;
 	life = 3;
 	score = 0;
+	AddLifePoint = 5000;
 
-	Init(320, 420, 0, 0, 5, 30);
+	Init(320, 420, 0, 0, 5, 10);
 }
 
 void Player::Update() {
@@ -86,7 +87,7 @@ void Player::Move() {
 	}
 
 	float nowSpeed = speed;
-	if (PAD_INPUT::GetNowKey(XINPUT_BUTTON_X) == 1) nowSpeed /= 3;
+	if (PAD_INPUT::GetNowKey(XINPUT_BUTTON_RIGHT_SHOULDER) == 1) nowSpeed /= 3;
 	float newX = x + moveX * nowSpeed;
 	if (newX < PLAYER_SIZE / 2 || newX > 640 - PLAYER_SIZE / 2) newX = x;
 	float newY = y + moveY * nowSpeed;
@@ -128,14 +129,14 @@ void Player::Draw() const {
 	if (isBlink) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, blink);
 	}
-	DrawGraph(x - PLAYER_SIZE / 2, y - PLAYER_SIZE / 2, images[0], TRUE);
+	DrawRotaGraph(x, y, 1.0, 0.0, images[0], TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	for (int i = 0; i < bulletCount; i++) {
 		if (bullets[i] != nullptr) {
 			bullets[i]->Draw();
 		}
 	}
-
+	DrawCircle(x, y, 10, 0xFFFFFF);
 	DrawFormatString(0, 0, 0xFFFFFF, "Score: %d", score);
 	DrawFormatString(0, 30, 0xFFFFFF, "Life : %d", life);
 }
@@ -168,4 +169,13 @@ void Player::HitItem(ITEM_TYPE item) {
 		}
 	}
 
+}
+
+void Player::AddScore(int _score) {
+	bool AddLifeFlag = score < AddLifePoint;
+	score += _score;
+	if (score >= AddLifePoint && AddLifeFlag) {
+		life++;
+		AddLifePoint *= 2;
+	}
 }

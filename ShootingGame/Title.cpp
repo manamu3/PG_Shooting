@@ -10,13 +10,13 @@ Title::Title() {
 }
 
 AbstractScene* Title::Update() {
-	if (PAD_INPUT::GetPadThumbLY() < -3000) {
+	if (PAD_INPUT::GetPadThumbLY() < -3000 || PAD_INPUT::GetKeyFlg(XINPUT_BUTTON_DPAD_DOWN)) {
 		if (!cursorMove) {
 			if (--cursorY < 0) cursorY = 1;
 			cursorMove = true;
 		}
 	}
-	else if (PAD_INPUT::GetPadThumbLY() > 3000) {
+	else if (PAD_INPUT::GetPadThumbLY() > 3000 || PAD_INPUT::GetKeyFlg(XINPUT_BUTTON_DPAD_UP)) {
 		if (!cursorMove) {
 			if (++cursorY > 1) cursorY = 0;
 			cursorMove = true;

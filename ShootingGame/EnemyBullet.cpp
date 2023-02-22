@@ -5,7 +5,7 @@
 EnemyBullet::EnemyBullet(float _x, float _y, int _bulletAngle, float _speed, int _damage, unsigned int _color) {
 	x = _x;
 	y = _y;
-	float rad = (float)(_bulletAngle) * ((DX_PI_F * 2) / 360.0f);
+	float rad = (float)(_bulletAngle) * (DX_PI_F / 180.0f);
 	moveX = cosf(rad);
 	moveY = sinf(rad);
 	speed = _speed;

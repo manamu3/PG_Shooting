@@ -3,7 +3,7 @@
 #include "BulletsBase.h"
 #include "ImageManager.h"
 
-#define BULLET_MAX 100
+#define BULLET_MAX 1000
 
 class CharaBase : public SphereCollider
 {

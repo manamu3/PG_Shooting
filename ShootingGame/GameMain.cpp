@@ -35,6 +35,8 @@ GameMain::GameMain() {
 		lineY[i] = i * 71 - 88;
 	}
 
+	isBoss = false;
+
 	enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
 
 	enemyCount = 0;
@@ -48,9 +50,26 @@ GameMain::GameMain() {
 AbstractScene* GameMain::Update() {
 	player->Update();
 
-	if (--enemyCreateTime <= 0) {
-		CreateEnemy();
-		enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
+	if (++time < 10800) {
+		if (--enemyCreateTime <= 0) {
+			CreateEnemy();
+			enemyCreateTime = GetRand(ENEMY_CREATE_MAX_INTERVAL);
+		}
+	}
+	else {
+		if (isBoss) {
+			//ボスの更新
+			if (boss != nullptr) {
+				boss->Update();
+			}
+			else {
+				return new GameOver(player->GetScore());
+			}
+		}
+		else {
+			boss = new BOSS(player);
+			isBoss = true;
+		}
 	}
 
 	for (int i = 0; i < enemyCount; i++) {
@@ -85,7 +104,10 @@ AbstractScene* GameMain::Update() {
 
 	HitCheck();
 
-	if (player->LifeCheck() || ++time > 10800) {
+	if (player->LifeCheck()) {
+		/*if (isBoss) {
+			printfDx("%d\n", boss);
+		}*/
 		return new GameOver(player->GetScore());
 	}
 
@@ -112,6 +134,10 @@ void GameMain::Draw() const {
 			item[i]->Draw();
 		}
 	}
+
+	if (isBoss && boss != nullptr) {
+		boss->Draw();
+	}
 }
 
 void GameMain::CreateEnemy() {
@@ -137,7 +163,7 @@ void GameMain::CreateEnemy() {
 			if (enemyType < 650) {
 				int x = GetRand(8);
 				if (GetPawnX(x)) {
-					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 35.0f, 2, 15, 100, 3);
+					enemy[i] = new PawnEnemy((640.0f / 9.0f) * (float)x + 35.0f, 2, 12, 100, 3);
 					pawnActive[x] = true;
 					enemyCount++;
 					enemyThreat += 2;
@@ -148,27 +174,27 @@ void GameMain::CreateEnemy() {
 				}
 			}
 			if (enemyType < 750) {
-				enemy[i] = new LanceEnemy(4, 15, 300, 6);
+				enemy[i] = new LanceEnemy(4, 12, 300, 6);
 				enemyThreat += 2;
 			}
 			else if (enemyType < 850) {
-				enemy[i] = new KnightEnemy(3, 15, 500, 10);
+				enemy[i] = new KnightEnemy(3, 12, 500, 10);
 				enemyThreat += 3;
 			}
 			else if (enemyType < 900) {
-				enemy[i] = new SilverEnemy(2, 15, 800, 15);
+				enemy[i] = new SilverEnemy(2, 12, 800, 15);
 				enemyThreat += 4;
 			}
 			else if (enemyType < 950) {
-				enemy[i] = new GoldEnemy(2, 15, 1000, 15);
+				enemy[i] = new GoldEnemy(2, 12, 1000, 15);
 				enemyThreat += 4;
 			}
 			else if (enemyType < 975) {
-				enemy[i] = new BishopEnemy(4, 15, 1200, 20);
+				enemy[i] = new BishopEnemy(4, 12, 1200, 20);
 				enemyThreat += 5;
 			}
 			else {
-				enemy[i] = new RookEnemy(4, 15, 1200, 20);
+				enemy[i] = new RookEnemy(4, 12, 1200, 20);
 				enemyThreat += 5;
 			}
 			enemyCount++;
@@ -307,6 +333,51 @@ void GameMain::HitCheck() {
 			}
 		}
 	}
+
+	//ボスの当たり判定
+	if (boss != nullptr) {
+		//プレイヤーと当たった時の処理
+		player->Hit(boss->GetLocation());
+
+		//プレイヤーの弾の当たり判定
+		for (int j = 0; j < player->GetBulletNum(); j++) {
+			if (!boss->IsActive()) break;
+			if (playerBullets[j] == nullptr) continue;
+
+			//プレイヤーの弾と当たった時の処理
+			if (boss->Hit(playerBullets[j]->GetLocation())) {
+				//ダメージ
+				boss->Damage(playerBullets[j]->GetDamage());
+				//死亡判定
+				if (boss->HpCheck()) {
+					//スコア加算
+					player->AddScore(boss->GetPoint());
+					//敵の削除
+					//boss->Disabled();
+					delete boss;
+					boss = nullptr;
+				}
+				//自弾の削除
+				player->DeleteBullet(j);
+				break;
+			}
+		}
+
+		if (boss != nullptr) {
+			BulletsBase** enemyBullets = boss->GetBullets();
+			for (int j = 0; j < boss->GetBulletNum(); j++) {
+				if (enemyBullets[j] == nullptr) continue;
+
+				//プレイヤーと当たったら
+				if (player->Hit(enemyBullets[j]->GetLocation())) {
+					boss->DeleteBullet(j);
+					break;
+				}
+			}
+		}
+	}
+
+	//アイテムの当たり判定
 	for (int i = 0; i < itemCount; i++) {
 		if (item[i] == nullptr) continue;
 

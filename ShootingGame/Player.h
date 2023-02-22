@@ -29,6 +29,8 @@ private:
 
 	std::map<ITEM_TYPE, int> itemCnt;
 
+	int AddLifePoint = 5000;
+
 public:
 	Player(Enemy** _enemy, int* _enemyMax);
 	void Update() override;
@@ -37,7 +39,7 @@ public:
 	void Move();
 	void Shot();
 	void AddAttackBullet(int attack) { bulletDamagePoint += attack; }
-	void AddScore(int _score) { score += _score; }
+	void AddScore(int _score);
 	void HitItem(ITEM_TYPE item);
 	bool LifeCheck() { return life <= 0; }
 	bool IsDamage() { return isDamage; }

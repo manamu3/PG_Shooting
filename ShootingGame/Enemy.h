@@ -9,7 +9,8 @@ enum class ENEMY_TYPE {
 	SILVER,
 	GOLD,
 	BISHOP,
-	ROOK
+	ROOK,
+	KING
 };
 
 class Enemy : public CharaBase
