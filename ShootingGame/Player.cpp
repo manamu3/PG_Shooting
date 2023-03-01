@@ -136,7 +136,7 @@ void Player::Draw() const {
 			bullets[i]->Draw();
 		}
 	}
-	DrawCircle(x, y, 10, 0xFFFFFF);
+	//DrawCircle(x, y, 10, 0xFFFFFF);
 	DrawFormatString(0, 0, 0xFFFFFF, "Score: %d", score);
 	DrawFormatString(0, 30, 0xFFFFFF, "Life : %d", life);
 }

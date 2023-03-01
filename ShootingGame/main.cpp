@@ -6,7 +6,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
-	SetMainWindowText("シューティングゲーム（仮）");
+	SetMainWindowText("弾幕シューティング");
 	ChangeWindowMode(TRUE);
 	SetGraphMode(640, 480, 32);
 	SetAlwaysRunFlag(TRUE);

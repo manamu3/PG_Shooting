@@ -14,6 +14,7 @@
 
 #include "Title.h"
 #include "GameOver.h"
+#include "GameClear.h"
 
 GameMain::GameMain() {
 
@@ -63,7 +64,7 @@ AbstractScene* GameMain::Update() {
 				boss->Update();
 			}
 			else {
-				return new GameOver(player->GetScore());
+				return new GameClear(player->GetScore());
 			}
 		}
 		else {
@@ -105,9 +106,6 @@ AbstractScene* GameMain::Update() {
 	HitCheck();
 
 	if (player->LifeCheck()) {
-		/*if (isBoss) {
-			printfDx("%d\n", boss);
-		}*/
 		return new GameOver(player->GetScore());
 	}
 

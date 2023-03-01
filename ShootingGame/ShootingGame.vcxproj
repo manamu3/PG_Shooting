@@ -157,6 +157,7 @@
     <ClCompile Include="BulletsBase.cpp" />
     <ClCompile Include="CharaBase.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GoldEnemy.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="BulletsBase.h" />
     <ClInclude Include="CharaBase.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GoldEnemy.h" />
